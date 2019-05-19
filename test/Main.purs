@@ -16,17 +16,20 @@ import Test.Unit.Assert as Assert
 import Node.Canvas (CanvasElement)
 import Node.Canvas as Canvas
 
+createCanvas' :: Number -> Number -> Aff CanvasElement
+createCanvas' width height = liftEffect $ Canvas.createCanvas width height
+
 getCanvasWidth' :: Number -> Number -> Aff Unit
 getCanvasWidth' width height =
   do
-    canvas <- liftEffect $ Canvas.createCanvas width height
+    canvas <- createCanvas' width height
     width' <- liftEffect $ Canvas.getCanvasWidth canvas
     Assert.equal width width'
 
 getCanvasHeight' :: Number -> Number -> Aff Unit
 getCanvasHeight' width height =
   do
-    canvas <- liftEffect $ Canvas.createCanvas width height
+    canvas <- createCanvas' width height
     height' <- liftEffect $ Canvas.getCanvasHeight canvas
     Assert.equal height height'
 
@@ -39,6 +42,12 @@ loadImage' src =
       result <- try $ Canvas.loadImage src
       assertTrue $ isRight result
 
+toDataURL' :: String -> CanvasElement -> Aff Unit
+toDataURL' url canvas =
+  do
+    url' <- liftEffect $ Canvas.toDataURL canvas
+    Assert.equal url url'
+
 main :: Effect Unit
 main = runTest do
   suite "Node.Canvas" do
@@ -50,3 +59,7 @@ main = runTest do
       getCanvasHeight' 48.0 144.0
     test "loadImage" do
       loadImage' "public/images/characters/skin/1.png"
+    test "toDataURL" do
+      toDataURL' "data:," =<< createCanvas' 0.0 0.0
+      toDataURL' "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAACQCAYAAABOHuhpAAAABmJLR0QA/wD/AP+gvaeTAAAAMklEQVR4nO3BAQ0AAADCoPdPbQ43oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgFcDbJAAAZK9ohEAAAAASUVORK5CYII=" =<< createCanvas' 48.0 144.0
+      

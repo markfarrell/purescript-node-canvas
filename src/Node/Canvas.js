@@ -46,3 +46,9 @@ exports.getCanvasHeight = function(canvasElement) {
     return canvasElement.height;
   };
 };
+
+exports.toDataURL = function(canvasElement) {
+  return function() {
+    return canvasElement.toDataURL();
+  };
+};
