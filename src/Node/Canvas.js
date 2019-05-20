@@ -76,3 +76,15 @@ exports.drawImage = function(ctx) {
     };
   };
 };
+
+exports.getImageWidth = function(image) {
+  return function() {
+    return image.width;
+  };
+};
+
+exports.getImageHeight = function(image) {
+  return function() {
+    return image.height;
+  };
+};

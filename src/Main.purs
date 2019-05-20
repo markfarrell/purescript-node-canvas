@@ -1,23 +1,39 @@
 module Main where
 
 import Prelude
+
+import Data.Array (drop) as Array
+import Data.Traversable (sequence)
+
 import Effect (Effect)
 import Effect.Aff (launchAff)
 import Effect.Class (liftEffect)
-import Effect.Console (log)
+import Effect.Console (logShow)
 
+import Process (argv) as Process
+
+import Node.Canvas (CanvasImageSource)
 import Node.Canvas as Canvas
 
+args :: Effect (Array String)
+args = Array.drop 2 <$> Process.argv
+
+getDimensions :: CanvasImageSource -> Effect { width :: Number, height :: Number }
+getDimensions image = 
+  do
+    width' <- Canvas.getImageWidth image
+    height' <- Canvas.getImageHeight image 
+    pure { width : width',  height : height' }
+
 main :: Effect Unit
-main = 
+main =
   let
-    width = 16.0
-    height = 18.0
+    args' = liftEffect $ args
+    getDimensions' = liftEffect <<< getDimensions
+    logShow' = liftEffect <<< logShow
   in
     void $ launchAff $ do
-      canvas <- liftEffect $ Canvas.createCanvas width height
-      image <- Canvas.loadImage "public/images/characters/skin/1.png"
-      ctx <- liftEffect $ Canvas.getContext2D canvas
-      _ <- liftEffect $ Canvas.drawImage ctx image 0.0 0.0 16.0 18.0 0.0 0.0 16.0 18.0
-      url <- liftEffect $ Canvas.toDataURL canvas
-      liftEffect $ log url
+      sources <- args'
+      images <- sequence $ Canvas.loadImage <$> sources
+      dimensions <- sequence $ getDimensions' <$> images
+      logShow' dimensions

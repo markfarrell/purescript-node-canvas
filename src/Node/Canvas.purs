@@ -9,6 +9,8 @@ module Node.Canvas
   , getCanvasHeight
   , toDataURL
   , drawImage
+  , getImageWidth
+  , getImageHeight
   ) where
 
 import Prelude
@@ -37,6 +39,10 @@ foreign import getCanvasHeight :: CanvasElement -> Effect Number
 foreign import toDataURL :: CanvasElement -> Effect String
 
 foreign import drawImage :: Context2D -> CanvasImageSource -> Number -> Number -> Number -> Number -> Number -> Number -> Number -> Number -> Effect Unit
+
+foreign import getImageWidth :: CanvasImageSource -> Effect Number
+
+foreign import getImageHeight :: CanvasImageSource -> Effect Number
 
 loadImage :: String -> Aff CanvasImageSource
 loadImage = fromEffectFnAff <<< _loadImage
