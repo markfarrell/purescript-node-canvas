@@ -50,7 +50,7 @@ drawImage' :: String -> Number -> Number -> Number -> Number -> Number -> Number
 drawImage' src sx sy sWidth sHeight dx dy dWidth dHeight =
   do
     canvas <- createCanvas' dWidth dHeight
-    image <- Canvas.loadImage "public/images/characters/skin/1.png"
+    image <- Canvas.loadImage src
     ctx <- liftEffect $ Canvas.getContext2D canvas
     _ <- liftEffect $ Canvas.drawImage ctx image sx sy sWidth sHeight dx dy dWidth dHeight
     pure canvas
