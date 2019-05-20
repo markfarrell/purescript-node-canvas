@@ -52,3 +52,27 @@ exports.toDataURL = function(canvasElement) {
     return canvasElement.toDataURL();
   };
 };
+
+exports.drawImage = function(ctx) {
+  return function(image) {
+    return function(sx) {
+      return function(sy) {
+        return function(sWidth) {
+          return function(sHeight) {
+            return function(dx) {
+              return function(dy) {
+                return function (dWidth) {
+                  return function (dHeight) {
+                    return function() {
+                      ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+                    };
+                  };
+                };
+              };
+            };
+          };
+        };
+      };
+    };
+  };
+};

@@ -8,6 +8,7 @@ module Node.Canvas
   , getCanvasWidth
   , getCanvasHeight
   , toDataURL
+  , drawImage
   ) where
 
 import Prelude
@@ -32,8 +33,10 @@ foreign import getCanvasWidth :: CanvasElement -> Effect Number
 
 foreign import getCanvasHeight :: CanvasElement -> Effect Number
 
-{-- Note: PureScript Strings are indeed UTF-16 strings. --}
+{-- Note: PureScript Strings are UTF-16 strings. --}
 foreign import toDataURL :: CanvasElement -> Effect String
+
+foreign import drawImage :: Context2D -> CanvasImageSource -> Number -> Number -> Number -> Number -> Number -> Number -> Number -> Number -> Effect Unit
 
 loadImage :: String -> Aff CanvasImageSource
 loadImage = fromEffectFnAff <<< _loadImage
