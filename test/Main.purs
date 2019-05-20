@@ -46,6 +46,15 @@ toDataURL' url canvas =
     url' <- liftEffect $ Canvas.toDataURL canvas
     Assert.equal url url'
 
+drawImage' :: String -> Number -> Number -> Number -> Number -> Number -> Number -> Number -> Number -> Aff CanvasElement
+drawImage' src sx sy sWidth sHeight dx dy dWidth dHeight =
+  do
+    canvas <- createCanvas' dWidth dHeight
+    image <- Canvas.loadImage "public/images/characters/skin/1.png"
+    ctx <- liftEffect $ Canvas.getContext2D canvas
+    _ <- liftEffect $ Canvas.drawImage ctx image sx sy sWidth sHeight dx dy dWidth dHeight
+    pure canvas
+
 main :: Effect Unit
 main = runTest do
   suite "Node.Canvas" do
@@ -58,6 +67,10 @@ main = runTest do
     test "loadImage" do
       loadImage' "public/images/characters/skin/1.png"
     test "toDataURL" do
-      toDataURL' "data:," =<< createCanvas' 0.0 0.0
-      toDataURL' "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAACQCAYAAABOHuhpAAAABmJLR0QA/wD/AP+gvaeTAAAAMklEQVR4nO3BAQ0AAADCoPdPbQ43oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgFcDbJAAAZK9ohEAAAAASUVORK5CYII=" =<< createCanvas' 48.0 144.0
-      
+      let
+        url = "data:,"
+        url' = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAACQCAYAAABOHuhpAAAABmJLR0QA/wD/AP+gvaeTAAAAMklEQVR4nO3BAQ0AAADCoPdPbQ43oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgFcDbJAAAZK9ohEAAAAASUVORK5CYII="
+        url'' = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAABmJLR0QA/wD/AP+gvaeTAAAA80lEQVQ4jcVToRHDMAx898IKUpii4sKg7pABcuadoJN0DU8Q0A2CDI2NbFoQnIJUOceSe2F9pNj6t/RSgH9DlS66azOn34OLYm5VIuvLGcdbCwCYRgsAsyTCBHIyABxvLfQSMpFDqYW9KAp8y2ZxDtGDPUSC6Cz5kML4IE6CHaTkbAqiyCEn3/tuQ07je9+x/WAmTqOF8YG1ZXwQPVkFqHQiS1MwPkBfzpsqqrR0ShxcVOHUzXhRWgvrrMrLXwXSV74Gzrq2eL6X3h+1hbk2tIWbbazoRQBM/VHznotTGFxU+aXxYTMNCWwTSWRwcTXr18/0AQMAgvXiBxQLAAAAAElFTkSuQmCC" 
+      toDataURL' url =<< createCanvas' 0.0 0.0
+      toDataURL' url' =<< createCanvas' 48.0 144.0
+      toDataURL' url'' =<< drawImage' "public/images/characters/skin/1.png" 0.0 0.0 16.0 18.0 0.0 0.0 16.0 18.0  
