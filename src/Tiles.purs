@@ -17,10 +17,12 @@ data Tile = Tile CanvasImageSource { x :: Number, y :: Number, w :: Number, h ::
 positions :: Number -> Number -> Int -> Int -> Array (Tuple Number Number)
 positions width height repeatX repeatY = 
   let
-    xs = (*) width <$> Int.toNumber <$> flip (-) 1 <$> Array.range 1 repeatX
-    ys = (*) height <$> Int.toNumber <$> flip (-) 1 <$>  Array.range 1 repeatY
+    xs = positions' width repeatX
+    ys = positions' height repeatY
   in
     Tuple <$> xs <*> ys
+  where
+    positions' s t = (*) s <$> Int.toNumber <$> flip (-) 1 <$> Array.range 1 t
 
 tiles :: Number -> Number -> Int -> Int -> CanvasImageSource -> Array Tile
 tiles width height repeatX repeatY image =
