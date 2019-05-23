@@ -14,10 +14,11 @@ import Sources (layer) as Sources
 main :: Effect Unit
 main =
   let
+    argv' = Array.drop 2 <$> Process.argv
     width = 48.0
     height = 144.0
   in
     void $ Aff.launchAff $ do
-      sources <- Effect.liftEffect $ Array.drop 2 <$> Process.argv
+      sources <- Effect.liftEffect $ argv'
       dataURL <- Sources.layer width height sources
       Effect.liftEffect $ Console.logShow dataURL
