@@ -44,5 +44,8 @@ foreign import getImageWidth :: CanvasImageSource -> Effect Number
 
 foreign import getImageHeight :: CanvasImageSource -> Effect Number
 
+instance showCanvasImageSource :: Show CanvasImageSource where
+  show _ = "CanvasImageSource"
+
 loadImage :: String -> Aff CanvasImageSource
 loadImage = fromEffectFnAff <<< _loadImage

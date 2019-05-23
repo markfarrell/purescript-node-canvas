@@ -14,6 +14,9 @@ import Node.Canvas.Aff (drawImage) as Canvas
 
 data Tile = Tile CanvasImageSource { x :: Number, y :: Number, w :: Number, h :: Number }
 
+instance showTile :: Show Tile where
+  show (Tile image t) = "Tile" <> " " <> show image <> " " <> show t
+
 positions :: Number -> Number -> Int -> Int -> Array (Tuple Number Number)
 positions width height repeatX repeatY = 
   let
@@ -31,9 +34,9 @@ tiles width height repeatX repeatY image =
   in
     tiles' <$> positions width height repeatX repeatY
 
-drawTile :: Context2D -> Tile -> Aff Unit
-drawTile context (Tile image t) =
+drawTile :: Context2D -> Number -> Number -> Tile -> Aff Unit
+drawTile context x y (Tile image t) =
   let
     drawImage' = Canvas.drawImage context image
   in
-    drawImage' t.x t.y t.w t.h t.x t.y t.w t.h
+    drawImage' t.x t.y t.w t.h x y t.w t.h
