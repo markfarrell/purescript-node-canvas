@@ -7,10 +7,10 @@ import Data.Tuple (fst, snd) as Tuple
 import Data.Array (range) as Array
 import Data.Int (toNumber) as Int
 
-import Effect (Effect)
+import Effect.Aff (Aff)
 
 import Node.Canvas (CanvasImageSource, Context2D)
-import Node.Canvas (drawImage) as Canvas
+import Node.Canvas.Aff (drawImage) as Canvas
 
 data Tile = Tile CanvasImageSource { x :: Number, y :: Number, w :: Number, h :: Number }
 
@@ -31,7 +31,7 @@ tiles width height repeatX repeatY image =
   in
     tiles' <$> positions width height repeatX repeatY
 
-drawTile :: Context2D -> Tile -> Effect Unit
+drawTile :: Context2D -> Tile -> Aff Unit
 drawTile context (Tile image t) =
   let
     drawImage' = Canvas.drawImage context image
