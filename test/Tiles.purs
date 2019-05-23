@@ -11,7 +11,7 @@ import Effect.Aff (launchAff) as Aff
 import Effect.Console (logShow) as Console
 import Effect.Class (liftEffect) as Effect
 
-import Process (argv) as Process
+import Node.Process (argv) as Process
 
 import Node.Canvas (CanvasElement)
 import Node.Canvas.Aff as Canvas
