@@ -1,46 +1,46 @@
-module Test.Tiles where
+module Test.Tiles
+  ( Tile
+  , tiles
+  , drawTile
+  ) where
 
 import Prelude
 
-import Data.Traversable (sequence)
-import Data.Array (drop) as Array
+import Data.Tuple (Tuple(..))
+import Data.Tuple (fst, snd) as Tuple
+import Data.Array (range) as Array
+import Data.Int (toNumber) as Int
 
-import Effect (Effect)
 import Effect.Aff (Aff)
-import Effect.Aff (launchAff) as Aff
-import Effect.Console (logShow) as Console
-import Effect.Class (liftEffect) as Effect
 
-import Node.Process (argv) as Process
+import Node.Canvas (CanvasImageSource, Context2D)
+import Node.Canvas.Aff (drawImage) as Canvas
 
-import Node.Canvas (CanvasElement)
-import Node.Canvas.Aff as Canvas
+data Tile = Tile CanvasImageSource { x :: Number, y :: Number, w :: Number, h :: Number }
 
-import Tiles (Tile)
-import Tiles as Tiles
+instance showTile :: Show Tile where
+  show (Tile image t) = "Tile" <> " " <> show image <> " " <> show t
 
-drawTile' :: Number -> Number -> Number -> Number -> Tile -> Aff CanvasElement
-drawTile' width height x y tile =
-  do
-    canvas <- Canvas.createCanvas width height
-    context <- Canvas.getContext2D canvas
-    _ <- Tiles.drawTile context x y tile
-    pure canvas
-
-main :: Effect Unit
-main =
+positions :: Number -> Number -> Int -> Int -> Array (Tuple Number Number)
+positions width height repeatX repeatY = 
   let
-    argv' = Array.drop 2 <$> Process.argv
-    width = 16.0
-    height = 18.0
-    tiles' = Tiles.tiles width height 3 8
-    logShow' = Effect.liftEffect <<< Console.logShow
-    drawTile'' = drawTile' width height 0.0 0.0
+    xs = positions' width repeatX
+    ys = positions' height repeatY
   in
-    void $ Aff.launchAff $ do
-      sources <- Effect.liftEffect $ argv'
-      images <- sequence $ Canvas.loadImage <$> sources
-      tiles'' <- pure $ join $ tiles' <$> images
-      canvases <- sequence $ drawTile'' <$> tiles''
-      dataURLs <- sequence $ Canvas.toDataURL <$> canvases 
-      logShow' dataURLs
+    Tuple <$> xs <*> ys
+  where
+    positions' s t = (*) s <$> Int.toNumber <$> flip (-) 1 <$> Array.range 1 t
+
+tiles :: Number -> Number -> Int -> Int -> CanvasImageSource -> Array Tile
+tiles width height repeatX repeatY image =
+  let
+    tiles' = \t -> Tile image { x : Tuple.fst t , y : Tuple.snd t, w : width, h : height }
+  in
+    tiles' <$> positions width height repeatX repeatY
+
+drawTile :: Context2D -> Number -> Number -> Tile -> Aff Unit
+drawTile context x y (Tile image t) =
+  let
+    drawImage' = Canvas.drawImage context image
+  in
+    drawImage' t.x t.y t.w t.h x y t.w t.h

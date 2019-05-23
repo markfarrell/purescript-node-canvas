@@ -1,24 +1,29 @@
-module Test.Sources where
+module Test.Sources
+  ( layer
+  ) where
 
 import Prelude
-import Data.Array (drop) as Array
 
-import Effect (Effect)
-import Effect.Aff (launchAff) as Aff
-import Effect.Console (logShow) as Console
-import Effect.Class (liftEffect) as Effect
+import Data.Traversable (sequence)
+import Effect.Aff (Aff)
 
-import Node.Process (argv) as Process
-import Sources (layer) as Sources
+import Node.Canvas (CanvasElement, CanvasImageSource, Context2D)
+import Node.Canvas.Aff as Canvas
 
-main :: Effect Unit
-main =
-  let
-    argv' = Array.drop 2 <$> Process.argv
-    width = 48.0
-    height = 144.0
-  in
-    void $ Aff.launchAff $ do
-      sources <- Effect.liftEffect $ argv'
-      dataURL <- Sources.layer width height sources
-      Effect.liftEffect $ Console.logShow dataURL
+drawImage' :: Context2D -> Number -> Number -> CanvasImageSource -> Aff Unit
+drawImage' context width height image = Canvas.drawImage context image 0.0 0.0 width height 0.0 0.0 width height
+
+layerOnCanvas :: Number -> Number -> Array CanvasImageSource -> Aff CanvasElement
+layerOnCanvas width height images =
+  do
+    canvas <- Canvas.createCanvas width height
+    context <- Canvas.getContext2D canvas
+    _ <- sequence $ drawImage' context width height <$> images
+    pure canvas
+
+layer :: Number -> Number -> Array String -> Aff String
+layer width height sources =
+  do
+    images <- sequence $ Canvas.loadImage <$> sources
+    canvas <- layerOnCanvas width height $ images
+    Canvas.toDataURL canvas
