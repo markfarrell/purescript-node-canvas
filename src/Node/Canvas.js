@@ -88,3 +88,43 @@ exports.getImageHeight = function(image) {
     return image.height;
   };
 };
+
+exports.getImageData = function(ctx) { 
+  return function(sx) {
+    return function(sy) {
+      return function(width) {
+        return function(height) {
+          return function() {
+            return ctx.getImageData(sx, sy, width, height);
+          }
+        }
+      }
+    }
+  }
+};
+
+exports.getImageDataBuffer = function(imageData) {
+  return function() {
+    return imageData.data;
+  };
+};
+
+exports.getImageDataWidth = function(imageData) {
+  return function() {
+    return imageData.width;
+  };
+};
+
+exports.getImageDataHeight = function(imageData) {
+  return function() {
+    return imageData.height;
+  };
+};
+
+exports._getImageDataIndex = function(imageData) {
+  return function(index) {
+    return function() {
+      return imageData.data[index];
+    };
+  };
+};

@@ -2,6 +2,7 @@ module Node.Canvas
   ( CanvasElement
   , Context2D
   , CanvasImageSource
+  , ImageData
   , createCanvas
   , getContext2D
   , loadImage
@@ -11,9 +12,20 @@ module Node.Canvas
   , drawImage
   , getImageWidth
   , getImageHeight
+  , getImageData
+  , getImageDataBuffer
+  , getImageDataWidth
+  , getImageDataHeight
+  , getImageDataIndex
   ) where
 
 import Prelude
+
+import Control.Monad.Error.Class (try)
+
+import Data.ArrayBuffer.Types (Uint8ClampedArray)
+import Data.Maybe (Maybe(..))
+import Data.Either (Either(..))
 
 import Effect (Effect)
 import Effect.Aff(Aff)
@@ -24,6 +36,8 @@ foreign import data CanvasElement :: Type
 foreign import data Context2D :: Type
 
 foreign import data CanvasImageSource :: Type
+
+foreign import data ImageData :: Type
 
 foreign import createCanvas :: Number -> Number -> Effect CanvasElement
 
@@ -44,8 +58,26 @@ foreign import getImageWidth :: CanvasImageSource -> Effect Number
 
 foreign import getImageHeight :: CanvasImageSource -> Effect Number
 
+foreign import getImageData :: Context2D -> Number -> Number -> Number -> Number -> Effect ImageData
+
+foreign import getImageDataBuffer :: ImageData -> Effect Uint8ClampedArray
+
+foreign import getImageDataWidth :: ImageData -> Effect Number
+
+foreign import getImageDataHeight :: ImageData -> Effect Number
+
+foreign import _getImageDataIndex :: ImageData -> Int -> Effect Number
+
 instance showCanvasImageSource :: Show CanvasImageSource where
   show _ = "CanvasImageSource"
 
 loadImage :: String -> Aff CanvasImageSource
 loadImage = fromEffectFnAff <<< _loadImage
+
+getImageDataIndex :: ImageData -> Int -> Effect (Maybe Number)
+getImageDataIndex imageData index = 
+  do
+    result <- try $ _getImageDataIndex imageData index
+    case result of
+      Left _ -> pure $ Nothing
+      Right value -> pure $ Just value

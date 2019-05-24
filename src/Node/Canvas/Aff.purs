@@ -8,17 +8,25 @@ module Node.Canvas.Aff
   , loadImage
   , getImageWidth
   , getImageHeight
+  , getImageData
+  , getImageDataBuffer
+  , getImageDataWidth
+  , getImageDataHeight
+  , getImageDataIndex
   ) where
 
 import Prelude
 
+import Data.Maybe (Maybe)
 import Data.Tuple (curry, uncurry)
 
 import Effect.Aff (Aff)
 import Effect.Class (liftEffect)
 
-import Node.Canvas (CanvasElement, Context2D, CanvasImageSource)
+import Node.Canvas (CanvasElement, Context2D, CanvasImageSource, ImageData)
 import Node.Canvas as Canvas
+
+import Data.ArrayBuffer.Types (Uint8ClampedArray)
 
 createCanvas :: Number -> Number -> Aff CanvasElement
 createCanvas = curry $ liftEffect <<< uncurry Canvas.createCanvas
@@ -49,3 +57,21 @@ getImageWidth = liftEffect <<< Canvas.getImageWidth
 
 getImageHeight :: CanvasImageSource -> Aff Number
 getImageHeight = liftEffect <<< Canvas.getImageHeight
+
+getImageData :: Context2D -> Number -> Number -> Number -> Number -> Aff ImageData
+getImageData ctx sx sy width height =
+  do
+    imageData <- liftEffect $ Canvas.getImageData ctx sx sy width height
+    pure imageData
+
+getImageDataBuffer :: ImageData -> Aff Uint8ClampedArray
+getImageDataBuffer = liftEffect <<< Canvas.getImageDataBuffer
+
+getImageDataWidth :: ImageData -> Aff Number
+getImageDataWidth = liftEffect <<< Canvas.getImageDataWidth
+
+getImageDataHeight :: ImageData -> Aff Number
+getImageDataHeight = liftEffect <<< Canvas.getImageDataHeight
+
+getImageDataIndex :: ImageData -> Int -> Aff (Maybe Number)
+getImageDataIndex imageData index = liftEffect $ Canvas.getImageDataIndex imageData index
