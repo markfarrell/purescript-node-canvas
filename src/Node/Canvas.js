@@ -128,3 +128,11 @@ exports._getImageDataIndex = function(imageData) {
     };
   };
 };
+
+exports.setFillStyle = function(ctx) {
+  return function(style) {
+    return function() {
+      ctx.setFillStyle(style);
+    };
+  };
+};

@@ -13,6 +13,7 @@ module Node.Canvas.Aff
   , getImageDataWidth
   , getImageDataHeight
   , getImageDataIndex
+  , setFillStyle
   ) where
 
 import Prelude
@@ -75,3 +76,6 @@ getImageDataHeight = liftEffect <<< Canvas.getImageDataHeight
 
 getImageDataIndex :: ImageData -> Int -> Aff (Maybe Number)
 getImageDataIndex imageData index = liftEffect $ Canvas.getImageDataIndex imageData index
+
+setFillStyle :: Context2D -> String -> Aff Unit
+setFillStyle ctx style = liftEffect $ Canvas.setFillStyle ctx style
