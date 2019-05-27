@@ -18,6 +18,7 @@ module Node.Canvas.Aff
   , setStrokeStyle
   , strokeRect
   , clearRect
+  , setFont
   ) where
 
 import Prelude
@@ -95,3 +96,6 @@ strokeRect ctx sx sy width height = liftEffect $ Canvas.strokeRect ctx sx sy wid
  
 clearRect :: Context2D -> Number -> Number -> Number -> Number -> Aff Unit
 clearRect ctx sx sy width height = liftEffect $ Canvas.clearRect ctx sx sy width height
+ 
+setFont :: Context2D -> String -> Aff Unit
+setFont ctx font = liftEffect $ Canvas.setFont ctx font

@@ -186,3 +186,11 @@ exports.clearRect = function(ctx) {
     };
   };
 };
+
+exports.setFont = function(ctx) {
+  return function(font) {
+    return function() {
+      ctx.font = font;
+    };
+  };
+};
