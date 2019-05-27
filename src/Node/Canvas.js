@@ -226,3 +226,9 @@ exports.measureText = function(ctx) {
     };
   };
 };
+
+exports.getTextMetricsWidth = function(textMetrics) {
+  return function() {
+    return textMetrics.width;
+  };
+};
