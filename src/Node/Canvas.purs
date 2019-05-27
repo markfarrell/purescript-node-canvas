@@ -19,6 +19,8 @@ module Node.Canvas
   , getImageDataIndex
   , setFillStyle
   , fillRect
+  , setStrokeStyle
+  , strokeRect
   ) where
 
 import Prelude
@@ -73,6 +75,10 @@ foreign import _getImageDataIndex :: ImageData -> Int -> Effect Number
 foreign import setFillStyle :: Context2D -> String -> Effect Unit
 
 foreign import fillRect :: Context2D -> Number -> Number -> Number -> Number -> Effect Unit
+
+foreign import setStrokeStyle :: Context2D -> String -> Effect Unit
+
+foreign import strokeRect :: Context2D -> Number -> Number -> Number -> Number -> Effect Unit
 
 instance showCanvasImageSource :: Show CanvasImageSource where
   show _ = "CanvasImageSource"

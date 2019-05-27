@@ -150,3 +150,25 @@ exports.fillRect = function(ctx) {
     };
   };
 };
+
+exports.setStrokeStyle = function(ctx) {
+  return function(style) {
+    return function() {
+      ctx.strokeStyle = style;
+    };
+  };
+};
+
+exports.strokeRect = function(ctx) {
+  return function(sx) {
+    return function(sy) {
+      return function(width) {
+        return function(height) {
+          return function() {
+            ctx.strokeRect(sx, sy, width, height);
+          };
+        };
+      };
+    };
+  };
+};
