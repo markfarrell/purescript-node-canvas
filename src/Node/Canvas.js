@@ -232,3 +232,9 @@ exports.getTextMetricsWidth = function(textMetrics) {
     return textMetrics.width;
   };
 };
+
+exports.save = function(ctx) {
+  return function() {
+    ctx.save();
+  };
+};

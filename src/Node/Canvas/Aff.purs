@@ -23,6 +23,7 @@ module Node.Canvas.Aff
   , strokeText
   , measureText
   , getTextMetricsWidth
+  , save
   ) where
 
 import Prelude
@@ -115,3 +116,6 @@ measureText ctx text = liftEffect $ Canvas.measureText ctx text
 
 getTextMetricsWidth :: TextMetrics -> Aff Number
 getTextMetricsWidth = liftEffect <<< Canvas.getTextMetricsWidth
+
+save :: Context2D -> Aff Unit
+save = liftEffect <<< Canvas.save
