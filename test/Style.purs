@@ -1,4 +1,4 @@
-module Test.Style
+module Test.Styles
   ( Style(..)
   , fromArray
   ) where

@@ -1,4 +1,4 @@
-module Test.Examples.Style where
+module Test.Examples.Styles where
 
 import Prelude
 
