@@ -194,3 +194,15 @@ exports.setFont = function(ctx) {
     };
   };
 };
+
+exports.fillText = function(ctx) {
+  return function(text) {
+    return function(x) {
+      return function(y) {
+          return function() {
+            return ctx.fillText(text, x, y);
+          };
+      };
+    };
+  };
+};
