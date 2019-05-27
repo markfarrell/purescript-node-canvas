@@ -252,3 +252,9 @@ exports.setTextAlignImpl = function(ctx) {
     };
   };
 };
+
+exports.fill = function(ctx) {
+  return function() {
+    ctx.fill();
+  };
+};

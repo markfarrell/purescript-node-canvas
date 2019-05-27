@@ -26,6 +26,7 @@ module Node.Canvas.Aff
   , save
   , restore
   , setTextAlign
+  , fill
   ) where
 
 import Prelude
@@ -134,3 +135,6 @@ restore = liftEffect <<< Canvas.restore
 
 setTextAlign :: Context2D -> TextAlign -> Aff Unit
 setTextAlign ctx textAlign = liftEffect $ Canvas.setTextAlign ctx textAlign
+
+fill :: Context2D -> Aff Unit
+fill = liftEffect <<< Canvas.fill

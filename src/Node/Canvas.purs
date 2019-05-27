@@ -32,6 +32,7 @@ module Node.Canvas
   , save
   , restore
   , setTextAlign
+  , fill
   ) where
 
 import Prelude
@@ -117,6 +118,8 @@ foreign import save :: Context2D -> Effect Unit
 foreign import restore :: Context2D -> Effect Unit
 
 foreign import setTextAlignImpl :: Context2D -> String -> Effect Unit
+
+foreign import fill :: Context2D -> Effect Unit
 
 loadImage :: String -> Aff CanvasImageSource
 loadImage = fromEffectFnAff <<< loadImageImpl
