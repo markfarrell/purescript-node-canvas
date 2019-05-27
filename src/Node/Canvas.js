@@ -259,6 +259,12 @@ exports.fill = function(ctx) {
   };
 };
 
+exports.stroke = function(ctx) {
+  return function() {
+    ctx.stroke();
+  };
+};
+
 exports.clip = function(ctx) {
   return function() {
     ctx.clip();

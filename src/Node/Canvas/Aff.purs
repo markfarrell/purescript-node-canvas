@@ -27,6 +27,7 @@ module Node.Canvas.Aff
   , restore
   , setTextAlign
   , fill
+  , stroke
   , clip
   , rect
   ) where
@@ -140,6 +141,9 @@ setTextAlign ctx textAlign = liftEffect $ Canvas.setTextAlign ctx textAlign
 
 fill :: Context2D -> Aff Unit
 fill = liftEffect <<< Canvas.fill
+
+stroke :: Context2D -> Aff Unit
+stroke = liftEffect <<< Canvas.stroke
 
 clip :: Context2D -> Aff Unit
 clip = liftEffect <<< Canvas.clip

@@ -33,6 +33,7 @@ module Node.Canvas
   , restore
   , setTextAlign
   , fill
+  , stroke
   , clip
   , rect
   ) where
@@ -122,6 +123,8 @@ foreign import restore :: Context2D -> Effect Unit
 foreign import setTextAlignImpl :: Context2D -> String -> Effect Unit
 
 foreign import fill :: Context2D -> Effect Unit
+
+foreign import stroke :: Context2D -> Effect Unit
 
 foreign import clip :: Context2D -> Effect Unit
 
