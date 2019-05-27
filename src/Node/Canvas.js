@@ -300,3 +300,9 @@ exports.arc = function(ctx) {
     };
   };
 };
+
+exports.beginPath = function(ctx) {
+  return function() {
+    ctx.beginPath();
+  };
+};

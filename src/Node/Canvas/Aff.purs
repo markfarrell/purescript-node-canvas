@@ -31,6 +31,7 @@ module Node.Canvas.Aff
   , clip
   , rect
   , arc
+  , beginPath
   ) where
 
 import Prelude
@@ -154,3 +155,6 @@ rect ctx x y width height = liftEffect $ Canvas.rect ctx x y width height
 
 arc :: Context2D -> Number -> Number -> Number -> Number -> Number -> Aff Unit
 arc ctx x y radius startAngle endAngle = liftEffect $ Canvas.arc ctx x y radius startAngle endAngle
+
+beginPath :: Context2D -> Aff Unit
+beginPath = liftEffect <<< Canvas.beginPath
