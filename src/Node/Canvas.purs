@@ -81,7 +81,7 @@ foreign import getImageDataWidth :: ImageData -> Effect Number
 
 foreign import getImageDataHeight :: ImageData -> Effect Number
 
-foreign import _getImageDataIndex :: ImageData -> Int -> Effect Number
+foreign import getImageDataIndexImpl :: ImageData -> Int -> Effect Number
 
 foreign import setFillStyle :: Context2D -> String -> Effect Unit
 
@@ -116,7 +116,7 @@ loadImage = fromEffectFnAff <<< _loadImage
 getImageDataIndex :: ImageData -> Int -> Effect (Maybe Number)
 getImageDataIndex imageData index = 
   do
-    result <- try $ _getImageDataIndex imageData index
+    result <- try $ getImageDataIndexImpl imageData index
     case result of
       Left _ -> pure $ Nothing
       Right value -> pure $ Just value

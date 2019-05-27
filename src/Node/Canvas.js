@@ -121,7 +121,7 @@ exports.getImageDataHeight = function(imageData) {
   };
 };
 
-exports._getImageDataIndex = function(imageData) {
+exports.getImageDataIndexImpl = function(imageData) {
   return function(index) {
     return function() {
       return imageData.data[index];
