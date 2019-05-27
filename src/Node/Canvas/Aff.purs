@@ -20,6 +20,7 @@ module Node.Canvas.Aff
   , clearRect
   , setFont
   , fillText
+  , strokeText
   ) where
 
 import Prelude
@@ -103,3 +104,6 @@ setFont ctx font = liftEffect $ Canvas.setFont ctx font
 
 fillText :: Context2D -> String -> Number -> Number -> Aff Unit
 fillText ctx text x y = liftEffect $ Canvas.fillText ctx text x y
+
+strokeText :: Context2D -> String -> Number -> Number -> Aff Unit
+strokeText ctx text x y = liftEffect $ Canvas.strokeText ctx text x y

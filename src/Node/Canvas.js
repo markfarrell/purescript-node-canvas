@@ -206,3 +206,15 @@ exports.fillText = function(ctx) {
     };
   };
 };
+
+exports.strokeText = function(ctx) {
+  return function(text) {
+    return function(x) {
+      return function(y) {
+          return function() {
+            return ctx.strokeText(text, x, y);
+          };
+      };
+    };
+  };
+};

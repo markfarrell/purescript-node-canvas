@@ -24,6 +24,7 @@ module Node.Canvas
   , clearRect
   , setFont
   , fillText
+  , strokeText
   ) where
 
 import Prelude
@@ -88,6 +89,8 @@ foreign import clearRect :: Context2D -> Number -> Number -> Number -> Number ->
 foreign import setFont :: Context2D -> String -> Effect Unit
 
 foreign import fillText :: Context2D -> String -> Number -> Number -> Effect Unit
+
+foreign import strokeText :: Context2D -> String -> Number -> Number -> Effect Unit
 
 instance showCanvasImageSource :: Show CanvasImageSource where
   show _ = "CanvasImageSource"
