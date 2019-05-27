@@ -24,6 +24,7 @@ module Node.Canvas.Aff
   , measureText
   , getTextMetricsWidth
   , save
+  , restore
   ) where
 
 import Prelude
@@ -119,3 +120,6 @@ getTextMetricsWidth = liftEffect <<< Canvas.getTextMetricsWidth
 
 save :: Context2D -> Aff Unit
 save = liftEffect <<< Canvas.save
+
+restore :: Context2D -> Aff Unit
+restore = liftEffect <<< Canvas.restore

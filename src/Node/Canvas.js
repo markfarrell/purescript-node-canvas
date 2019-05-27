@@ -238,3 +238,9 @@ exports.save = function(ctx) {
     ctx.save();
   };
 };
+
+exports.restore = function(ctx) {
+  return function() {
+    ctx.restore();
+  };
+};

@@ -29,6 +29,7 @@ module Node.Canvas
   , measureText
   , getTextMetricsWidth
   , save
+  , restore
   ) where
 
 import Prelude
@@ -103,6 +104,8 @@ foreign import measureText :: Context2D -> String -> Effect TextMetrics
 foreign import getTextMetricsWidth :: TextMetrics -> Effect Number
 
 foreign import save :: Context2D -> Effect Unit
+
+foreign import restore :: Context2D -> Effect Unit
 
 instance showCanvasImageSource :: Show CanvasImageSource where
   show _ = "CanvasImageSource"
