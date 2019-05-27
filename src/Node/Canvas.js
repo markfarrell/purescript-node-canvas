@@ -316,3 +316,13 @@ exports.moveTo = function(ctx) {
     };
   };
 };
+
+exports.lineTo = function(ctx) {
+  return function(x) {
+    return function(y) {
+      return function() {
+        ctx.lineTo(x, y);
+      };
+    };
+  };
+};
