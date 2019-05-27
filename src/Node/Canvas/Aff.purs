@@ -25,6 +25,7 @@ module Node.Canvas.Aff
   , getTextMetricsWidth
   , save
   , restore
+  , setTextAlign
   ) where
 
 import Prelude
@@ -35,7 +36,14 @@ import Data.Tuple (curry, uncurry)
 import Effect.Aff (Aff)
 import Effect.Class (liftEffect)
 
-import Node.Canvas (CanvasElement, Context2D, CanvasImageSource, ImageData, TextMetrics)
+import Node.Canvas
+  ( CanvasElement
+  , Context2D
+  , CanvasImageSource
+  , ImageData
+  , TextMetrics
+  , TextAlign
+  )
 import Node.Canvas as Canvas
 
 import Data.ArrayBuffer.Types (Uint8ClampedArray)
@@ -123,3 +131,6 @@ save = liftEffect <<< Canvas.save
 
 restore :: Context2D -> Aff Unit
 restore = liftEffect <<< Canvas.restore
+
+setTextAlign :: Context2D -> TextAlign -> Aff Unit
+setTextAlign ctx textAlign = liftEffect $ Canvas.setTextAlign ctx textAlign

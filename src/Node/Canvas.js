@@ -244,3 +244,11 @@ exports.restore = function(ctx) {
     ctx.restore();
   };
 };
+
+exports.setTextAlignImpl = function(ctx) {
+  return function(textAlign) {
+    return function() {
+      ctx.textAlign = textAlign;
+    };
+  };
+};

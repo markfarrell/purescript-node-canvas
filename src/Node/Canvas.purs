@@ -4,6 +4,7 @@ module Node.Canvas
   , CanvasImageSource
   , ImageData
   , TextMetrics
+  , TextAlign
   , createCanvas
   , getContext2D
   , loadImage
@@ -30,6 +31,7 @@ module Node.Canvas
   , getTextMetricsWidth
   , save
   , restore
+  , setTextAlign
   ) where
 
 import Prelude
@@ -54,6 +56,13 @@ foreign import data ImageData :: Type
 
 foreign import data TextMetrics :: Type
 
+data TextAlign
+  = AlignLeft
+  | AlignRight
+  | AlignCenter
+  | AlignStart
+  | AlignEnd
+                           
 foreign import createCanvas :: Number -> Number -> Effect CanvasElement
 
 foreign import getContext2D :: CanvasElement -> Effect Context2D
@@ -107,6 +116,8 @@ foreign import save :: Context2D -> Effect Unit
 
 foreign import restore :: Context2D -> Effect Unit
 
+foreign import setTextAlignImpl :: Context2D -> String -> Effect Unit
+
 loadImage :: String -> Aff CanvasImageSource
 loadImage = fromEffectFnAff <<< loadImageImpl
 
@@ -117,3 +128,10 @@ getImageDataIndex imageData index =
     case result of
       Left _ -> pure $ Nothing
       Right value -> pure $ Just value
+
+setTextAlign :: Context2D -> TextAlign -> Effect Unit
+setTextAlign ctx AlignLeft = setTextAlignImpl ctx "left" 
+setTextAlign ctx AlignRight = setTextAlignImpl ctx "right"
+setTextAlign ctx AlignCenter = setTextAlignImpl ctx "center"
+setTextAlign ctx AlignStart = setTextAlignImpl ctx "start"
+setTextAlign ctx AlignEnd = setTextAlignImpl ctx "end"
