@@ -34,6 +34,7 @@ module Node.Canvas.Aff
   , beginPath
   , moveTo
   , lineTo
+  , closePath
   ) where
 
 import Prelude
@@ -166,3 +167,6 @@ moveTo ctx x y = liftEffect $ Canvas.moveTo ctx x y
 
 lineTo :: Context2D -> Number -> Number -> Aff Unit
 lineTo ctx x y = liftEffect $ Canvas.lineTo ctx x y
+
+closePath :: Context2D -> Aff Unit
+closePath = liftEffect <<< Canvas.closePath

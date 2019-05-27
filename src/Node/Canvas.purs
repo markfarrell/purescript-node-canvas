@@ -40,6 +40,7 @@ module Node.Canvas
   , beginPath
   , moveTo
   , lineTo
+  , closePath
   ) where
 
 import Prelude
@@ -141,6 +142,8 @@ foreign import beginPath :: Context2D -> Effect Unit
 foreign import moveTo :: Context2D -> Number -> Number -> Effect Unit
 
 foreign import lineTo :: Context2D -> Number -> Number -> Effect Unit
+
+foreign import closePath :: Context2D -> Effect Unit
 
 loadImage :: String -> Aff CanvasImageSource
 loadImage = fromEffectFnAff <<< loadImageImpl

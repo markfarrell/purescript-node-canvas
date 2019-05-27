@@ -326,3 +326,9 @@ exports.lineTo = function(ctx) {
     };
   };
 };
+
+exports.closePath = function(ctx) {
+  return function() {
+    ctx.closePath();
+  };
+};
