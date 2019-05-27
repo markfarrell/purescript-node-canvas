@@ -32,6 +32,7 @@ module Node.Canvas.Aff
   , rect
   , arc
   , beginPath
+  , moveTo
   ) where
 
 import Prelude
@@ -158,3 +159,6 @@ arc ctx x y radius startAngle endAngle = liftEffect $ Canvas.arc ctx x y radius 
 
 beginPath :: Context2D -> Aff Unit
 beginPath = liftEffect <<< Canvas.beginPath
+
+moveTo :: Context2D -> Number -> Number -> Aff Unit
+moveTo ctx x y = liftEffect $ Canvas.moveTo ctx x y

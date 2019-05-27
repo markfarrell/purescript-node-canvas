@@ -306,3 +306,13 @@ exports.beginPath = function(ctx) {
     ctx.beginPath();
   };
 };
+
+exports.moveTo = function(ctx) {
+  return function(x) {
+    return function(y) {
+      return function() {
+        ctx.moveTo(x, y);
+      };
+    };
+  };
+};

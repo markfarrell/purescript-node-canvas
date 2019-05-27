@@ -38,6 +38,7 @@ module Node.Canvas
   , rect
   , arc
   , beginPath
+  , moveTo
   ) where
 
 import Prelude
@@ -135,6 +136,8 @@ foreign import rect :: Context2D -> Number -> Number -> Number -> Number -> Effe
 foreign import arc :: Context2D -> Number -> Number -> Number -> Number -> Number -> Effect Unit
 
 foreign import beginPath :: Context2D -> Effect Unit
+
+foreign import moveTo :: Context2D -> Number -> Number -> Effect Unit
 
 loadImage :: String -> Aff CanvasImageSource
 loadImage = fromEffectFnAff <<< loadImageImpl
