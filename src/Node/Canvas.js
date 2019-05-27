@@ -16,7 +16,7 @@ exports.getContext2D = function(canvasElement) {
   };
 };
 
-exports._loadImage = function(src) {
+exports.loadImageImpl = function(src) {
   return function(onError, onSuccess) {
     var image = new Canvas.Image();
     image.onload = function() {

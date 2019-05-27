@@ -58,7 +58,7 @@ foreign import createCanvas :: Number -> Number -> Effect CanvasElement
 
 foreign import getContext2D :: CanvasElement -> Effect Context2D
 
-foreign import _loadImage :: String -> EffectFnAff CanvasImageSource
+foreign import loadImageImpl :: String -> EffectFnAff CanvasImageSource
 
 foreign import getCanvasWidth :: CanvasElement -> Effect Number
 
@@ -111,7 +111,7 @@ instance showCanvasImageSource :: Show CanvasImageSource where
   show _ = "CanvasImageSource"
 
 loadImage :: String -> Aff CanvasImageSource
-loadImage = fromEffectFnAff <<< _loadImage
+loadImage = fromEffectFnAff <<< loadImageImpl
 
 getImageDataIndex :: ImageData -> Int -> Effect (Maybe Number)
 getImageDataIndex imageData index = 
