@@ -3,6 +3,7 @@ module Node.Canvas
   , Context2D
   , CanvasImageSource
   , ImageData
+  , TextMetrics
   , createCanvas
   , getContext2D
   , loadImage
@@ -25,6 +26,7 @@ module Node.Canvas
   , setFont
   , fillText
   , strokeText
+  , measureText
   ) where
 
 import Prelude
@@ -46,6 +48,8 @@ foreign import data Context2D :: Type
 foreign import data CanvasImageSource :: Type
 
 foreign import data ImageData :: Type
+
+foreign import data TextMetrics :: Type
 
 foreign import createCanvas :: Number -> Number -> Effect CanvasElement
 
@@ -91,6 +95,8 @@ foreign import setFont :: Context2D -> String -> Effect Unit
 foreign import fillText :: Context2D -> String -> Number -> Number -> Effect Unit
 
 foreign import strokeText :: Context2D -> String -> Number -> Number -> Effect Unit
+
+foreign import measureText :: Context2D -> String -> Effect TextMetrics
 
 instance showCanvasImageSource :: Show CanvasImageSource where
   show _ = "CanvasImageSource"

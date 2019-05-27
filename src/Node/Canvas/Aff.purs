@@ -21,6 +21,7 @@ module Node.Canvas.Aff
   , setFont
   , fillText
   , strokeText
+  , measureText
   ) where
 
 import Prelude
@@ -31,7 +32,7 @@ import Data.Tuple (curry, uncurry)
 import Effect.Aff (Aff)
 import Effect.Class (liftEffect)
 
-import Node.Canvas (CanvasElement, Context2D, CanvasImageSource, ImageData)
+import Node.Canvas (CanvasElement, Context2D, CanvasImageSource, ImageData, TextMetrics)
 import Node.Canvas as Canvas
 
 import Data.ArrayBuffer.Types (Uint8ClampedArray)
@@ -107,3 +108,6 @@ fillText ctx text x y = liftEffect $ Canvas.fillText ctx text x y
 
 strokeText :: Context2D -> String -> Number -> Number -> Aff Unit
 strokeText ctx text x y = liftEffect $ Canvas.strokeText ctx text x y
+
+measureText :: Context2D -> String -> Aff TextMetrics
+measureText ctx text = liftEffect $ Canvas.measureText ctx text

@@ -218,3 +218,11 @@ exports.strokeText = function(ctx) {
     };
   };
 };
+
+exports.measureText = function(ctx) {
+  return function(text) {
+    return function() {
+      return ctx.measureText(text);
+    };
+  };
+};
