@@ -36,6 +36,7 @@ module Node.Canvas
   , stroke
   , clip
   , rect
+  , arc
   ) where
 
 import Prelude
@@ -129,6 +130,8 @@ foreign import stroke :: Context2D -> Effect Unit
 foreign import clip :: Context2D -> Effect Unit
 
 foreign import rect :: Context2D -> Number -> Number -> Number -> Number -> Effect Unit
+
+foreign import arc :: Context2D -> Number -> Number -> Number -> Number -> Number -> Effect Unit
 
 loadImage :: String -> Aff CanvasImageSource
 loadImage = fromEffectFnAff <<< loadImageImpl

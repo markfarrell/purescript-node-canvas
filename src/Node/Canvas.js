@@ -284,3 +284,19 @@ exports.rect = function(ctx) {
     };
   };
 };
+
+exports.arc = function(ctx) {
+  return function(x) {
+    return function(y) {
+      return function(radius) {
+        return function(startAngle) {
+          return function(endAngle) {
+            return function() {
+              ctx.arc(x, y, radius, startAngle, endAngle);
+            };
+          };
+        };
+      };
+    };
+  };
+};

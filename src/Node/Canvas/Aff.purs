@@ -30,6 +30,7 @@ module Node.Canvas.Aff
   , stroke
   , clip
   , rect
+  , arc
   ) where
 
 import Prelude
@@ -150,3 +151,6 @@ clip = liftEffect <<< Canvas.clip
  
 rect :: Context2D -> Number -> Number -> Number -> Number -> Aff Unit
 rect ctx x y width height = liftEffect $ Canvas.rect ctx x y width height
+
+arc :: Context2D -> Number -> Number -> Number -> Number -> Number -> Aff Unit
+arc ctx x y radius startAngle endAngle = liftEffect $ Canvas.arc ctx x y radius startAngle endAngle
