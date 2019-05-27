@@ -132,7 +132,21 @@ exports._getImageDataIndex = function(imageData) {
 exports.setFillStyle = function(ctx) {
   return function(style) {
     return function() {
-      ctx.setFillStyle(style);
+      ctx.fillStyle = style;
+    };
+  };
+};
+
+exports.fillRect = function(ctx) {
+  return function(sx) {
+    return function(sy) {
+      return function(width) {
+        return function(height) {
+          return function() {
+            ctx.fillRect(sx, sy, width, height);
+          };
+        };
+      };
     };
   };
 };

@@ -18,6 +18,7 @@ module Node.Canvas
   , getImageDataHeight
   , getImageDataIndex
   , setFillStyle
+  , fillRect
   ) where
 
 import Prelude
@@ -70,6 +71,8 @@ foreign import getImageDataHeight :: ImageData -> Effect Number
 foreign import _getImageDataIndex :: ImageData -> Int -> Effect Number
 
 foreign import setFillStyle :: Context2D -> String -> Effect Unit
+
+foreign import fillRect :: Context2D -> Number -> Number -> Number -> Number -> Effect Unit
 
 instance showCanvasImageSource :: Show CanvasImageSource where
   show _ = "CanvasImageSource"
