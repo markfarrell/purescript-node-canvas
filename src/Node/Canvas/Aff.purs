@@ -28,6 +28,7 @@ module Node.Canvas.Aff
   , setTextAlign
   , fill
   , clip
+  , rect
   ) where
 
 import Prelude
@@ -142,3 +143,6 @@ fill = liftEffect <<< Canvas.fill
 
 clip :: Context2D -> Aff Unit
 clip = liftEffect <<< Canvas.clip
+ 
+rect :: Context2D -> Number -> Number -> Number -> Number -> Aff Unit
+rect ctx x y width height = liftEffect $ Canvas.rect ctx x y width height

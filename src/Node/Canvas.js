@@ -264,3 +264,17 @@ exports.clip = function(ctx) {
     ctx.clip();
   };
 };
+
+exports.rect = function(ctx) {
+  return function(x) {
+    return function(y) {
+      return function(width) {
+        return function(height) {
+          return function() {
+            ctx.rect(x, y, width, height);
+          };
+        };
+      };
+    };
+  };
+};
