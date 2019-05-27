@@ -19,7 +19,7 @@ import Node.Canvas.Aff (drawImage) as Canvas
 data Tile = Tile CanvasImageSource { x :: Number, y :: Number, w :: Number, h :: Number }
 
 instance showTile :: Show Tile where
-  show (Tile image t) = "Tile" <> " " <> show image <> " " <> show t
+  show (Tile image t) = "(Tile" <> " " <> show t <> ")"
 
 positions :: Number -> Number -> Int -> Int -> Array (Tuple Number Number)
 positions width height repeatX repeatY = 
