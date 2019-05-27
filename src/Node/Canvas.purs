@@ -107,9 +107,6 @@ foreign import save :: Context2D -> Effect Unit
 
 foreign import restore :: Context2D -> Effect Unit
 
-instance showCanvasImageSource :: Show CanvasImageSource where
-  show _ = "CanvasImageSource"
-
 loadImage :: String -> Aff CanvasImageSource
 loadImage = fromEffectFnAff <<< loadImageImpl
 
