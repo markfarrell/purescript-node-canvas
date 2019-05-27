@@ -172,3 +172,17 @@ exports.strokeRect = function(ctx) {
     };
   };
 };
+
+exports.clearRect = function(ctx) {
+  return function(sx) {
+    return function(sy) {
+      return function(width) {
+        return function(height) {
+          return function() {
+            ctx.clearRect(sx, sy, width, height);
+          };
+        };
+      };
+    };
+  };
+};

@@ -17,6 +17,7 @@ module Node.Canvas.Aff
   , fillRect
   , setStrokeStyle
   , strokeRect
+  , clearRect
   ) where
 
 import Prelude
@@ -91,3 +92,6 @@ setStrokeStyle ctx style = liftEffect $ Canvas.setStrokeStyle ctx style
 
 strokeRect :: Context2D -> Number -> Number -> Number -> Number -> Aff Unit
 strokeRect ctx sx sy width height = liftEffect $ Canvas.strokeRect ctx sx sy width height
+ 
+clearRect :: Context2D -> Number -> Number -> Number -> Number -> Aff Unit
+clearRect ctx sx sy width height = liftEffect $ Canvas.clearRect ctx sx sy width height
