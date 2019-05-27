@@ -258,3 +258,9 @@ exports.fill = function(ctx) {
     ctx.fill();
   };
 };
+
+exports.clip = function(ctx) {
+  return function() {
+    ctx.clip();
+  };
+};
