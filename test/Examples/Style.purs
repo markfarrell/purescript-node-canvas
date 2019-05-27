@@ -32,6 +32,9 @@ main =
       sources <- Effect.liftEffect $ argv'
       canvas <- Canvas.createCanvas width height
       context <- Canvas.getContext2D canvas
+      _ <- Canvas.setStrokeStyle context style
+      _ <- Canvas.strokeRect context x y width height
+      _ <- Canvas.clearRect context x y width height
       _ <- Canvas.setFillStyle context style
       _ <- Canvas.fillRect context x y width height 
       imageData <- Canvas.getImageData context x y width height
