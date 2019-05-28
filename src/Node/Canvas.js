@@ -378,3 +378,21 @@ exports.transform = function(ctx) {
     };
   };
 };
+
+exports.setTransform = function(ctx) {
+  return function(a) {
+    return function(b) {
+      return function(c) {
+        return function(d) {
+          return function(e) {
+            return function(f) {
+              return function() {
+                ctx.setTransform(a, b, c, d, e, f);
+              };
+            };
+          };
+        };
+      };
+    };
+  };
+};

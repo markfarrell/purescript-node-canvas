@@ -39,6 +39,7 @@ module Node.Canvas.Aff
   , scale
   , translate
   , transform
+  , setTransform
   ) where
 
 import Prelude
@@ -186,3 +187,6 @@ translate ctx x y = liftEffect $ Canvas.translate ctx x y
 
 transform :: Context2D -> Number -> Number -> Number -> Number -> Number -> Number -> Aff Unit
 transform ctx a b c d e f = liftEffect $ Canvas.transform ctx a b c d e f
+
+setTransform :: Context2D -> Number -> Number -> Number -> Number -> Number -> Number -> Aff Unit
+setTransform ctx a b c d e f = liftEffect $ Canvas.transform ctx a b c d e f
