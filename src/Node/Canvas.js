@@ -340,3 +340,13 @@ exports.rotate = function(ctx) {
     };
   };
 };
+
+exports.scale = function(ctx) {
+  return function(x) {
+    return function(y) {
+      return function() {
+        ctx.scale(x,y);
+      };
+    };
+  };
+};

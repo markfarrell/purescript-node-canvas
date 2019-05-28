@@ -36,6 +36,7 @@ module Node.Canvas.Aff
   , lineTo
   , closePath
   , rotate
+  , scale
   ) where
 
 import Prelude
@@ -174,3 +175,6 @@ closePath = liftEffect <<< Canvas.closePath
 
 rotate :: Context2D -> Number -> Aff Unit
 rotate ctx radians = liftEffect $ Canvas.rotate ctx radians
+
+scale :: Context2D -> Number -> Number -> Aff Unit
+scale ctx x y = liftEffect $ Canvas.scale ctx x y
