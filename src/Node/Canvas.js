@@ -350,3 +350,13 @@ exports.scale = function(ctx) {
     };
   };
 };
+
+exports.translate = function(ctx) {
+  return function(x) {
+    return function(y) {
+      return function() {
+        ctx.translate(x,y);
+      };
+    };
+  };
+};
