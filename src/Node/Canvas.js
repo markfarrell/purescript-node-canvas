@@ -332,3 +332,11 @@ exports.closePath = function(ctx) {
     ctx.closePath();
   };
 };
+
+exports.rotate = function(ctx) {
+  return function(radians) {
+    return function() {
+      ctx.rotate(radians);
+    };
+  };
+};
