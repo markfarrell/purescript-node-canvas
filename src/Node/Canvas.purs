@@ -44,6 +44,7 @@ module Node.Canvas
   , rotate
   , scale
   , translate
+  , transform
   ) where
 
 import Prelude
@@ -153,6 +154,8 @@ foreign import rotate :: Context2D -> Number -> Effect Unit
 foreign import scale :: Context2D -> Number -> Number -> Effect Unit
 
 foreign import translate :: Context2D -> Number -> Number -> Effect Unit
+
+foreign import transform :: Context2D -> Number -> Number -> Number -> Number -> Number -> Number -> Effect Unit
 
 loadImage :: String -> Aff CanvasImageSource
 loadImage = fromEffectFnAff <<< loadImageImpl

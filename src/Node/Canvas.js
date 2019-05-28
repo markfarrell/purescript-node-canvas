@@ -360,3 +360,21 @@ exports.translate = function(ctx) {
     };
   };
 };
+
+exports.transform = function(ctx) {
+  return function(a) {
+    return function(b) {
+      return function(c) {
+        return function(d) {
+          return function(e) {
+            return function(f) {
+              return function() {
+                ctx.transform(a, b, c, d, e, f);
+              };
+            };
+          };
+        };
+      };
+    };
+  };
+};

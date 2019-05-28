@@ -38,6 +38,7 @@ module Node.Canvas.Aff
   , rotate
   , scale
   , translate
+  , transform
   ) where
 
 import Prelude
@@ -182,3 +183,6 @@ scale ctx x y = liftEffect $ Canvas.scale ctx x y
 
 translate :: Context2D -> Number -> Number -> Aff Unit
 translate ctx x y = liftEffect $ Canvas.translate ctx x y
+
+transform :: Context2D -> Number -> Number -> Number -> Number -> Number -> Number -> Aff Unit
+transform ctx a b c d e f = liftEffect $ Canvas.transform ctx a b c d e f
