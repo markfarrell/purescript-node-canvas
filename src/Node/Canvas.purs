@@ -50,6 +50,7 @@ module Node.Canvas
   , createLinearGradient
   , addColorStop
   , setGradientFillStyle
+  , createRadialGradient
   ) where
 
 import Prelude
@@ -171,6 +172,8 @@ foreign import createLinearGradient :: Context2D -> Number -> Number -> Number -
 foreign import addColorStop :: CanvasGradient -> Number -> String -> Effect Unit
 
 foreign import setGradientFillStyle :: Context2D -> CanvasGradient -> Effect Unit
+
+foreign import createRadialGradient :: Context2D -> Number -> Number -> Number -> Number -> Number -> Number -> Effect CanvasGradient
 
 loadImage :: String -> Aff CanvasImageSource
 loadImage = fromEffectFnAff <<< loadImageImpl

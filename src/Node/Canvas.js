@@ -428,3 +428,21 @@ exports.setGradientFillStyle = function(ctx) {
     };
   };
 };
+
+exports.createRadialGradient = function(ctx) {
+  return function(x0) {
+    return function(y0) {
+      return function(r0) {
+        return function(x1) {
+          return function(y1) {
+            return function(r1) {
+              return function() {
+                return ctx.createRadialGradient(x0, y0, r0, x1, y1, r1);
+              };
+            };
+          };
+        };
+      };
+    };
+  };
+};

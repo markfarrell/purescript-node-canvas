@@ -43,6 +43,7 @@ module Node.Canvas.Aff
   , createLinearGradient
   , addColorStop
   , setGradientFillStyle
+  , createRadialGradient
   ) where
 
 import Prelude
@@ -218,3 +219,6 @@ addColorStop = liftEffect2 <<< Canvas.addColorStop
 
 setGradientFillStyle :: Context2D -> CanvasGradient -> Aff Unit
 setGradientFillStyle = liftEffect1 <<< Canvas.setGradientFillStyle
+
+createRadialGradient :: Context2D -> Number -> Number -> Number -> Number -> Number -> Number -> Aff CanvasGradient
+createRadialGradient = liftEffect6 <<< Canvas.createRadialGradient
