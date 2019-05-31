@@ -44,6 +44,7 @@ module Node.Canvas.Aff
   , addColorStop
   , setGradientFillStyle
   , createRadialGradient
+  , createPattern
   ) where
 
 import Prelude
@@ -63,6 +64,8 @@ import Node.Canvas
   , TextMetrics
   , TextAlign
   , CanvasGradient
+  , CanvasPattern
+  , PatternRepeat
   )
 import Node.Canvas as Canvas
 
@@ -222,3 +225,6 @@ setGradientFillStyle = liftEffect1 <<< Canvas.setGradientFillStyle
 
 createRadialGradient :: Context2D -> Number -> Number -> Number -> Number -> Number -> Number -> Aff CanvasGradient
 createRadialGradient = liftEffect6 <<< Canvas.createRadialGradient
+
+createPattern :: Context2D -> CanvasImageSource -> PatternRepeat -> Aff CanvasPattern
+createPattern = liftEffect2 <<< Canvas.createPattern

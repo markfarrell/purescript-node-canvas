@@ -446,3 +446,13 @@ exports.createRadialGradient = function(ctx) {
     };
   };
 };
+
+exports.createPatternImpl = function(ctx) {
+  return function(image) {
+    return function(repetition) {
+      return function() {
+        return ctx.createPattern(image, repetition);
+      };
+    };
+  };
+};

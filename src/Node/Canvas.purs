@@ -6,6 +6,8 @@ module Node.Canvas
   , TextMetrics
   , TextAlign
   , CanvasGradient
+  , CanvasPattern
+  , PatternRepeat(..)
   , createCanvas
   , getContext2D
   , loadImage
@@ -51,6 +53,7 @@ module Node.Canvas
   , addColorStop
   , setGradientFillStyle
   , createRadialGradient
+  , createPattern
   ) where
 
 import Prelude
@@ -77,6 +80,8 @@ foreign import data TextMetrics :: Type
 
 foreign import data CanvasGradient :: Type
 
+foreign import data CanvasPattern :: Type
+
 data TextAlign
   = AlignLeft
   | AlignRight
@@ -84,6 +89,12 @@ data TextAlign
   | AlignStart
   | AlignEnd
                            
+data PatternRepeat
+  = Repeat
+  | RepeatX
+  | RepeatY
+  | NoRepeat
+
 foreign import createCanvas :: Number -> Number -> Effect CanvasElement
 
 foreign import getContext2D :: CanvasElement -> Effect Context2D
@@ -175,6 +186,8 @@ foreign import setGradientFillStyle :: Context2D -> CanvasGradient -> Effect Uni
 
 foreign import createRadialGradient :: Context2D -> Number -> Number -> Number -> Number -> Number -> Number -> Effect CanvasGradient
 
+foreign import createPatternImpl :: Context2D -> CanvasImageSource -> String -> Effect CanvasPattern
+
 loadImage :: String -> Aff CanvasImageSource
 loadImage = fromEffectFnAff <<< loadImageImpl
 
@@ -192,3 +205,9 @@ setTextAlign ctx AlignRight = setTextAlignImpl ctx "right"
 setTextAlign ctx AlignCenter = setTextAlignImpl ctx "center"
 setTextAlign ctx AlignStart = setTextAlignImpl ctx "start"
 setTextAlign ctx AlignEnd = setTextAlignImpl ctx "end"
+
+createPattern :: Context2D -> CanvasImageSource -> PatternRepeat -> Effect CanvasPattern
+createPattern ctx image Repeat = createPatternImpl ctx image "repeat"
+createPattern ctx image RepeatX = createPatternImpl ctx image "repeat-x"
+createPattern ctx image RepeatY = createPatternImpl ctx image "repeat-y"
+createPattern ctx image NoRepeat = createPatternImpl ctx image "no-repeat"
