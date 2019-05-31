@@ -48,6 +48,7 @@ module Node.Canvas
   , transform
   , setTransform
   , createLinearGradient
+  , addColorStop
   ) where
 
 import Prelude
@@ -165,6 +166,8 @@ foreign import transform :: Context2D -> Number -> Number -> Number -> Number ->
 foreign import setTransform :: Context2D -> Number -> Number -> Number -> Number -> Number -> Number -> Effect Unit
 
 foreign import createLinearGradient :: Context2D -> Number -> Number -> Number -> Number -> Effect CanvasGradient
+
+foreign import addColorStop :: CanvasGradient -> Number -> String -> Effect Unit
 
 loadImage :: String -> Aff CanvasImageSource
 loadImage = fromEffectFnAff <<< loadImageImpl

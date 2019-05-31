@@ -410,3 +410,13 @@ exports.createLinearGradient = function(ctx) {
     };
   };
 };
+
+exports.addColorStop = function(gradient) {
+  return function(offset) {
+    return function(color) {
+      return function() {
+        gradient.addColorStop(offset, color);
+      };
+    };
+  };
+};
