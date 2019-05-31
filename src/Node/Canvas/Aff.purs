@@ -47,8 +47,9 @@ import Prelude
 import Data.Maybe (Maybe)
 import Data.Tuple (curry, uncurry)
 
+import Effect (Effect)
 import Effect.Aff (Aff)
-import Effect.Class (liftEffect)
+import Effect.Class (class MonadEffect, liftEffect)
 
 import Node.Canvas
   ( CanvasElement
@@ -60,7 +61,25 @@ import Node.Canvas
   )
 import Node.Canvas as Canvas
 
-import Data.ArrayBuffer.Types (Uint8ClampedArray)
+import Data.ArrayBuffer.Types (Uint8ClampedArray) 
+
+liftEffect1 :: forall m a b. MonadEffect m => (a -> Effect b) -> a -> m b
+liftEffect1 = compose liftEffect
+
+liftEffect2 :: forall m a b c. MonadEffect m => (a -> b -> Effect c) -> a -> b -> m c
+liftEffect2 = compose $ compose liftEffect
+
+liftEffect3 :: forall m a b c d. MonadEffect m => (a -> b -> c -> Effect d) -> a -> b -> c -> m d
+liftEffect3 = compose $ compose $ compose liftEffect
+
+liftEffect4 :: forall m a b c d e. MonadEffect m => (a -> b -> c -> d -> Effect e) -> a -> b -> c -> d -> m e
+liftEffect4 = compose $ compose $ compose $ compose liftEffect
+
+liftEffect5 :: forall m a b c d e f. MonadEffect m => (a -> b -> c -> d -> e -> Effect f) -> a -> b -> c -> d -> e -> m f
+liftEffect5 = compose $ compose $ compose $ compose $ compose liftEffect
+
+liftEffect6 :: forall m a b c d e f g. MonadEffect m => (a -> b -> c -> d -> e -> f -> Effect g) -> a -> b -> c -> d -> e -> f -> m g
+liftEffect6 = compose $ compose $ compose $ compose $ compose $ compose liftEffect
 
 createCanvas :: Number -> Number -> Aff CanvasElement
 createCanvas = curry $ liftEffect <<< uncurry Canvas.createCanvas
@@ -81,10 +100,9 @@ loadImage :: String -> Aff CanvasImageSource
 loadImage = Canvas.loadImage
 
 drawImage :: Context2D -> CanvasImageSource -> Number -> Number -> Number -> Number -> Number -> Number -> Number -> Number -> Aff Unit
-drawImage ctx img sx sy sw sh dx dy dw dh =
-  do
-    _ <- liftEffect $ Canvas.drawImage ctx img sx sy sw sh dx dy dw dh
-    pure unit
+drawImage = liftEffect9 <<< Canvas.drawImage
+  where
+    liftEffect9 = compose $ compose $ compose $ liftEffect6
 
 getImageWidth :: CanvasImageSource -> Aff Number
 getImageWidth = liftEffect <<< Canvas.getImageWidth
@@ -93,10 +111,7 @@ getImageHeight :: CanvasImageSource -> Aff Number
 getImageHeight = liftEffect <<< Canvas.getImageHeight
 
 getImageData :: Context2D -> Number -> Number -> Number -> Number -> Aff ImageData
-getImageData ctx sx sy width height =
-  do
-    imageData <- liftEffect $ Canvas.getImageData ctx sx sy width height
-    pure imageData
+getImageData = liftEffect4 <<< Canvas.getImageData
 
 getImageDataBuffer :: ImageData -> Aff Uint8ClampedArray
 getImageDataBuffer = liftEffect <<< Canvas.getImageDataBuffer
@@ -108,34 +123,34 @@ getImageDataHeight :: ImageData -> Aff Number
 getImageDataHeight = liftEffect <<< Canvas.getImageDataHeight
 
 getImageDataIndex :: ImageData -> Int -> Aff (Maybe Number)
-getImageDataIndex imageData index = liftEffect $ Canvas.getImageDataIndex imageData index
+getImageDataIndex = liftEffect1 <<< Canvas.getImageDataIndex
 
 setFillStyle :: Context2D -> String -> Aff Unit
-setFillStyle ctx style = liftEffect $ Canvas.setFillStyle ctx style
+setFillStyle = liftEffect1 <<< Canvas.setFillStyle
 
 fillRect :: Context2D -> Number -> Number -> Number -> Number -> Aff Unit
-fillRect ctx sx sy width height = liftEffect $ Canvas.fillRect ctx sx sy width height
+fillRect =liftEffect4 <<< Canvas.fillRect
 
 setStrokeStyle :: Context2D -> String -> Aff Unit
-setStrokeStyle ctx style = liftEffect $ Canvas.setStrokeStyle ctx style
+setStrokeStyle = liftEffect1 <<< Canvas.setStrokeStyle
 
 strokeRect :: Context2D -> Number -> Number -> Number -> Number -> Aff Unit
-strokeRect ctx sx sy width height = liftEffect $ Canvas.strokeRect ctx sx sy width height
+strokeRect = liftEffect4 <<< Canvas.strokeRect
  
 clearRect :: Context2D -> Number -> Number -> Number -> Number -> Aff Unit
-clearRect ctx sx sy width height = liftEffect $ Canvas.clearRect ctx sx sy width height
+clearRect = liftEffect4 <<< Canvas.clearRect
  
 setFont :: Context2D -> String -> Aff Unit
-setFont ctx font = liftEffect $ Canvas.setFont ctx font
+setFont = liftEffect1 <<< Canvas.setFont
 
 fillText :: Context2D -> String -> Number -> Number -> Aff Unit
-fillText ctx text x y = liftEffect $ Canvas.fillText ctx text x y
+fillText = liftEffect3 <<< Canvas.fillText
 
 strokeText :: Context2D -> String -> Number -> Number -> Aff Unit
-strokeText ctx text x y = liftEffect $ Canvas.strokeText ctx text x y
+strokeText = liftEffect3 <<< Canvas.strokeText
 
 measureText :: Context2D -> String -> Aff TextMetrics
-measureText ctx text = liftEffect $ Canvas.measureText ctx text
+measureText = liftEffect1 <<< Canvas.measureText
 
 getTextMetricsWidth :: TextMetrics -> Aff Number
 getTextMetricsWidth = liftEffect <<< Canvas.getTextMetricsWidth
@@ -147,7 +162,7 @@ restore :: Context2D -> Aff Unit
 restore = liftEffect <<< Canvas.restore
 
 setTextAlign :: Context2D -> TextAlign -> Aff Unit
-setTextAlign ctx textAlign = liftEffect $ Canvas.setTextAlign ctx textAlign
+setTextAlign = liftEffect1 <<< Canvas.setTextAlign
 
 fill :: Context2D -> Aff Unit
 fill = liftEffect <<< Canvas.fill
@@ -159,34 +174,34 @@ clip :: Context2D -> Aff Unit
 clip = liftEffect <<< Canvas.clip
  
 rect :: Context2D -> Number -> Number -> Number -> Number -> Aff Unit
-rect ctx x y width height = liftEffect $ Canvas.rect ctx x y width height
+rect = liftEffect4 <<< Canvas.rect
 
 arc :: Context2D -> Number -> Number -> Number -> Number -> Number -> Aff Unit
-arc ctx x y radius startAngle endAngle = liftEffect $ Canvas.arc ctx x y radius startAngle endAngle
+arc = liftEffect5 <<< Canvas.arc
 
 beginPath :: Context2D -> Aff Unit
 beginPath = liftEffect <<< Canvas.beginPath
 
 moveTo :: Context2D -> Number -> Number -> Aff Unit
-moveTo ctx x y = liftEffect $ Canvas.moveTo ctx x y
+moveTo = liftEffect2 <<< Canvas.moveTo
 
 lineTo :: Context2D -> Number -> Number -> Aff Unit
-lineTo ctx x y = liftEffect $ Canvas.lineTo ctx x y
+lineTo = liftEffect2 <<< Canvas.lineTo
 
 closePath :: Context2D -> Aff Unit
 closePath = liftEffect <<< Canvas.closePath
 
 rotate :: Context2D -> Number -> Aff Unit
-rotate ctx radians = liftEffect $ Canvas.rotate ctx radians
+rotate = liftEffect1 <<< Canvas.rotate
 
 scale :: Context2D -> Number -> Number -> Aff Unit
-scale ctx x y = liftEffect $ Canvas.scale ctx x y
+scale = liftEffect2 <<< Canvas.scale
 
 translate :: Context2D -> Number -> Number -> Aff Unit
-translate ctx x y = liftEffect $ Canvas.translate ctx x y
+translate = liftEffect2 <<< Canvas.translate
 
 transform :: Context2D -> Number -> Number -> Number -> Number -> Number -> Number -> Aff Unit
-transform ctx a b c d e f = liftEffect $ Canvas.transform ctx a b c d e f
+transform = liftEffect6 <<< Canvas.transform
 
 setTransform :: Context2D -> Number -> Number -> Number -> Number -> Number -> Number -> Aff Unit
-setTransform ctx a b c d e f = liftEffect $ Canvas.transform ctx a b c d e f
+setTransform = liftEffect6 <<< Canvas.transform
