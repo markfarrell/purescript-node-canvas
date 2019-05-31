@@ -42,6 +42,7 @@ module Node.Canvas.Aff
   , setTransform
   , createLinearGradient
   , addColorStop
+  , setGradientFillStyle
   ) where
 
 import Prelude
@@ -214,3 +215,6 @@ createLinearGradient = liftEffect4 <<< Canvas.createLinearGradient
 
 addColorStop :: CanvasGradient -> Number -> String -> Aff Unit
 addColorStop = liftEffect2 <<< Canvas.addColorStop
+
+setGradientFillStyle :: Context2D -> CanvasGradient -> Aff Unit
+setGradientFillStyle = liftEffect1 <<< Canvas.setGradientFillStyle

@@ -420,3 +420,11 @@ exports.addColorStop = function(gradient) {
     };
   };
 };
+
+exports.setGradientFillStyle = function(ctx) {
+  return function(gradient) {
+    return function() {
+      ctx.fillStyle = gradient;
+    };
+  };
+};
