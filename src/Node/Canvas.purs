@@ -5,6 +5,7 @@ module Node.Canvas
   , ImageData
   , TextMetrics
   , TextAlign
+  , CanvasGradient
   , createCanvas
   , getContext2D
   , loadImage
@@ -46,6 +47,7 @@ module Node.Canvas
   , translate
   , transform
   , setTransform
+  , createLinearGradient
   ) where
 
 import Prelude
@@ -69,6 +71,8 @@ foreign import data CanvasImageSource :: Type
 foreign import data ImageData :: Type
 
 foreign import data TextMetrics :: Type
+
+foreign import data CanvasGradient :: Type
 
 data TextAlign
   = AlignLeft
@@ -159,6 +163,8 @@ foreign import translate :: Context2D -> Number -> Number -> Effect Unit
 foreign import transform :: Context2D -> Number -> Number -> Number -> Number -> Number -> Number -> Effect Unit
 
 foreign import setTransform :: Context2D -> Number -> Number -> Number -> Number -> Number -> Number -> Effect Unit
+
+foreign import createLinearGradient :: Context2D -> Number -> Number -> Number -> Number -> Effect CanvasGradient
 
 loadImage :: String -> Aff CanvasImageSource
 loadImage = fromEffectFnAff <<< loadImageImpl

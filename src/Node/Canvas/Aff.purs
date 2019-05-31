@@ -40,6 +40,7 @@ module Node.Canvas.Aff
   , translate
   , transform
   , setTransform
+  , createLinearGradient
   ) where
 
 import Prelude
@@ -58,6 +59,7 @@ import Node.Canvas
   , ImageData
   , TextMetrics
   , TextAlign
+  , CanvasGradient
   )
 import Node.Canvas as Canvas
 
@@ -205,3 +207,6 @@ transform = liftEffect6 <<< Canvas.transform
 
 setTransform :: Context2D -> Number -> Number -> Number -> Number -> Number -> Number -> Aff Unit
 setTransform = liftEffect6 <<< Canvas.setTransform
+
+createLinearGradient :: Context2D -> Number -> Number -> Number -> Number -> Aff CanvasGradient
+createLinearGradient = liftEffect4 <<< Canvas.createLinearGradient

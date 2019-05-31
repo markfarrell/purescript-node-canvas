@@ -396,3 +396,17 @@ exports.setTransform = function(ctx) {
     };
   };
 };
+
+exports.createLinearGradient = function(ctx) {
+  return function(x0) {
+    return function(y0) {
+      return function(x1) {
+        return function(y1) {
+          return function() {
+            return ctx.createLinearGradient(x0, y0, x1, y1);
+          };
+        };
+      };
+    };
+  };
+};
