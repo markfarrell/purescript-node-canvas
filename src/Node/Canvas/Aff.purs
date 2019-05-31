@@ -204,4 +204,4 @@ transform :: Context2D -> Number -> Number -> Number -> Number -> Number -> Numb
 transform = liftEffect6 <<< Canvas.transform
 
 setTransform :: Context2D -> Number -> Number -> Number -> Number -> Number -> Number -> Aff Unit
-setTransform = liftEffect6 <<< Canvas.transform
+setTransform = liftEffect6 <<< Canvas.setTransform
