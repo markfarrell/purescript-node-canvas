@@ -54,6 +54,7 @@ module Node.Canvas
   , setGradientFillStyle
   , createRadialGradient
   , createPattern
+  , setPatternFillStyle
   ) where
 
 import Prelude
@@ -187,6 +188,8 @@ foreign import setGradientFillStyle :: Context2D -> CanvasGradient -> Effect Uni
 foreign import createRadialGradient :: Context2D -> Number -> Number -> Number -> Number -> Number -> Number -> Effect CanvasGradient
 
 foreign import createPatternImpl :: Context2D -> CanvasImageSource -> String -> Effect CanvasPattern
+
+foreign import setPatternFillStyle :: Context2D -> CanvasPattern -> Effect Unit
 
 loadImage :: String -> Aff CanvasImageSource
 loadImage = fromEffectFnAff <<< loadImageImpl

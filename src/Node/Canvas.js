@@ -456,3 +456,11 @@ exports.createPatternImpl = function(ctx) {
     };
   };
 };
+
+exports.setPatternFillStyle = function(ctx) {
+  return function(pattern) {
+    return function() {
+      ctx.fillStyle = pattern;
+    };
+  };
+};

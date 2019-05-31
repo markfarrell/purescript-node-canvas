@@ -45,6 +45,7 @@ module Node.Canvas.Aff
   , setGradientFillStyle
   , createRadialGradient
   , createPattern
+  , setPatternFillStyle
   ) where
 
 import Prelude
@@ -228,3 +229,6 @@ createRadialGradient = liftEffect6 <<< Canvas.createRadialGradient
 
 createPattern :: Context2D -> CanvasImageSource -> PatternRepeat -> Aff CanvasPattern
 createPattern = liftEffect2 <<< Canvas.createPattern
+
+setPatternFillStyle :: Context2D -> CanvasPattern -> Aff Unit
+setPatternFillStyle = liftEffect1 <<< Canvas.setPatternFillStyle
