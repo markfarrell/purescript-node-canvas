@@ -40,6 +40,7 @@ module Node.Canvas
   , createPattern
   , setPatternFillStyle
   , setLineDash
+  , quadraticCurveTo
   ) where
 
 import Prelude
@@ -66,6 +67,7 @@ import Graphics.Canvas
   , Transform
   , LinearGradient
   , RadialGradient
+  , QuadraticCurve
   )
 import Graphics.Canvas as Graphics.Canvas
 
@@ -215,3 +217,6 @@ setPatternFillStyle = liftEffect1 <<< Graphics.Canvas.setPatternFillStyle
 
 setLineDash :: Context2D -> Array Number -> Aff Unit
 setLineDash = liftEffect1 <<< Graphics.Canvas.setLineDash
+
+quadraticCurveTo :: Context2D -> QuadraticCurve -> Aff Unit
+quadraticCurveTo = liftEffect1 <<< Graphics.Canvas.quadraticCurveTo
