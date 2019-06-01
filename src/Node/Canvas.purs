@@ -42,6 +42,7 @@ module Node.Canvas
   , setLineDash
   , quadraticCurveTo
   , bezierCurveTo
+  , setGlobalCompositeOperation
   ) where
 
 import Prelude
@@ -70,6 +71,7 @@ import Graphics.Canvas
   , RadialGradient
   , QuadraticCurve
   , BezierCurve
+  , Composite
   )
 import Graphics.Canvas as Graphics.Canvas
 
@@ -225,3 +227,6 @@ quadraticCurveTo = liftEffect1 <<< Graphics.Canvas.quadraticCurveTo
 
 bezierCurveTo :: Context2D -> BezierCurve -> Aff Unit
 bezierCurveTo = liftEffect1 <<< Graphics.Canvas.bezierCurveTo
+
+setGlobalCompositeOperation :: Context2D -> Composite -> Aff Unit
+setGlobalCompositeOperation = liftEffect1 <<< Graphics.Canvas.setGlobalCompositeOperation
