@@ -39,6 +39,7 @@ module Node.Canvas
   , createRadialGradient
   , createPattern
   , setPatternFillStyle
+  , setLineDash
   ) where
 
 import Prelude
@@ -211,3 +212,6 @@ createPattern = liftEffect2 <<< Graphics.Canvas.createPattern
 
 setPatternFillStyle :: Context2D -> CanvasPattern -> Aff Unit
 setPatternFillStyle = liftEffect1 <<< Graphics.Canvas.setPatternFillStyle
+
+setLineDash :: Context2D -> Array Number -> Aff Unit
+setLineDash = liftEffect1 <<< Graphics.Canvas.setLineDash
