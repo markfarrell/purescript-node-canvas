@@ -1,27 +1,12 @@
 module Node.Canvas
-  ( CanvasElement
-  , Context2D
-  , CanvasImageSource
-  , ImageData
-  , TextMetrics
-  , TextAlign
-  , CanvasGradient
-  , CanvasPattern
-  , PatternRepeat(..)
-  , createCanvas
-  , getContext2D
+  ( createCanvas
   , loadImage
+  , getContext2D
   , getCanvasWidth
   , getCanvasHeight
   , toDataURL
   , drawImage
-  , getImageWidth
-  , getImageHeight
   , getImageData
-  , getImageDataBuffer
-  , getImageDataWidth
-  , getImageDataHeight
-  , getImageDataIndex
   , setFillStyle
   , fillRect
   , setStrokeStyle
@@ -31,7 +16,6 @@ module Node.Canvas
   , fillText
   , strokeText
   , measureText
-  , getTextMetricsWidth
   , save
   , restore
   , setTextAlign
@@ -59,158 +43,171 @@ module Node.Canvas
 
 import Prelude
 
-import Control.Monad.Error.Class (try)
-
-import Data.ArrayBuffer.Types (Uint8ClampedArray)
-import Data.Maybe (Maybe(..))
-import Data.Either (Either(..))
-
 import Effect (Effect)
-import Effect.Aff(Aff)
+import Effect.Aff (Aff)
+import Effect.Class (class MonadEffect, liftEffect)
 import Effect.Aff.Compat (EffectFnAff, fromEffectFnAff)
 
-foreign import data CanvasElement :: Type
+import Graphics.Canvas
+  ( CanvasElement
+  , Context2D
+  , CanvasImageSource
+  , ImageData
+  , TextMetrics
+  , TextAlign
+  , CanvasGradient
+  , CanvasPattern
+  , PatternRepeat
+  , Rectangle
+  , Arc
+  , ScaleTransform
+  , TranslateTransform
+  , Transform
+  , LinearGradient
+  , RadialGradient
+  )
+import Graphics.Canvas as Graphics.Canvas
 
-foreign import data Context2D :: Type
-
-foreign import data CanvasImageSource :: Type
-
-foreign import data ImageData :: Type
-
-foreign import data TextMetrics :: Type
-
-foreign import data CanvasGradient :: Type
-
-foreign import data CanvasPattern :: Type
-
-data TextAlign
-  = AlignLeft
-  | AlignRight
-  | AlignCenter
-  | AlignStart
-  | AlignEnd
-                           
-data PatternRepeat
-  = Repeat
-  | RepeatX
-  | RepeatY
-  | NoRepeat
-
-foreign import createCanvas :: Number -> Number -> Effect CanvasElement
-
-foreign import getContext2D :: CanvasElement -> Effect Context2D
+foreign import createCanvasImpl :: Number -> Number -> Effect CanvasElement
 
 foreign import loadImageImpl :: String -> EffectFnAff CanvasImageSource
 
-foreign import getCanvasWidth :: CanvasElement -> Effect Number
+liftEffect1 :: forall m a b. MonadEffect m => (a -> Effect b) -> a -> m b
+liftEffect1 = compose liftEffect
 
-foreign import getCanvasHeight :: CanvasElement -> Effect Number
+liftEffect2 :: forall m a b c. MonadEffect m => (a -> b -> Effect c) -> a -> b -> m c
+liftEffect2 = compose liftEffect1
 
-{-- Note: PureScript Strings are UTF-16 strings. --}
-foreign import toDataURL :: CanvasElement -> Effect String
+liftEffect3 :: forall m a b c d. MonadEffect m => (a -> b -> c -> Effect d) -> a -> b -> c -> m d
+liftEffect3 = compose liftEffect2
 
-foreign import drawImage :: Context2D -> CanvasImageSource -> Number -> Number -> Number -> Number -> Number -> Number -> Number -> Number -> Effect Unit
+liftEffect4 :: forall m a b c d e. MonadEffect m => (a -> b -> c -> d -> Effect e) -> a -> b -> c -> d -> m e
+liftEffect4 = compose liftEffect3 
 
-foreign import getImageWidth :: CanvasImageSource -> Effect Number
+liftEffect5 :: forall m a b c d e f. MonadEffect m => (a -> b -> c -> d -> e -> Effect f) -> a -> b -> c -> d -> e -> m f
+liftEffect5 = compose liftEffect4 
 
-foreign import getImageHeight :: CanvasImageSource -> Effect Number
+liftEffect6 :: forall m a b c d e f g. MonadEffect m => (a -> b -> c -> d -> e -> f -> Effect g) -> a -> b -> c -> d -> e -> f -> m g
+liftEffect6 = compose liftEffect5 
 
-foreign import getImageData :: Context2D -> Number -> Number -> Number -> Number -> Effect ImageData
-
-foreign import getImageDataBuffer :: ImageData -> Effect Uint8ClampedArray
-
-foreign import getImageDataWidth :: ImageData -> Effect Number
-
-foreign import getImageDataHeight :: ImageData -> Effect Number
-
-foreign import getImageDataIndexImpl :: ImageData -> Int -> Effect Number
-
-foreign import setFillStyle :: Context2D -> String -> Effect Unit
-
-foreign import fillRect :: Context2D -> Number -> Number -> Number -> Number -> Effect Unit
-
-foreign import setStrokeStyle :: Context2D -> String -> Effect Unit
-
-foreign import strokeRect :: Context2D -> Number -> Number -> Number -> Number -> Effect Unit
-
-foreign import clearRect :: Context2D -> Number -> Number -> Number -> Number -> Effect Unit
-
-foreign import setFont :: Context2D -> String -> Effect Unit
-
-foreign import fillText :: Context2D -> String -> Number -> Number -> Effect Unit
-
-foreign import strokeText :: Context2D -> String -> Number -> Number -> Effect Unit
-
-foreign import measureText :: Context2D -> String -> Effect TextMetrics
-
-foreign import getTextMetricsWidth :: TextMetrics -> Effect Number
-
-foreign import save :: Context2D -> Effect Unit
-
-foreign import restore :: Context2D -> Effect Unit
-
-foreign import setTextAlignImpl :: Context2D -> String -> Effect Unit
-
-foreign import fill :: Context2D -> Effect Unit
-
-foreign import stroke :: Context2D -> Effect Unit
-
-foreign import clip :: Context2D -> Effect Unit
-
-foreign import rect :: Context2D -> Number -> Number -> Number -> Number -> Effect Unit
-
-foreign import arc :: Context2D -> Number -> Number -> Number -> Number -> Number -> Effect Unit
-
-foreign import beginPath :: Context2D -> Effect Unit
-
-foreign import moveTo :: Context2D -> Number -> Number -> Effect Unit
-
-foreign import lineTo :: Context2D -> Number -> Number -> Effect Unit
-
-foreign import closePath :: Context2D -> Effect Unit
-
-foreign import rotate :: Context2D -> Number -> Effect Unit
-
-foreign import scale :: Context2D -> Number -> Number -> Effect Unit
-
-foreign import translate :: Context2D -> Number -> Number -> Effect Unit
-
-foreign import transform :: Context2D -> Number -> Number -> Number -> Number -> Number -> Number -> Effect Unit
-
-foreign import setTransform :: Context2D -> Number -> Number -> Number -> Number -> Number -> Number -> Effect Unit
-
-foreign import createLinearGradient :: Context2D -> Number -> Number -> Number -> Number -> Effect CanvasGradient
-
-foreign import addColorStop :: CanvasGradient -> Number -> String -> Effect Unit
-
-foreign import setGradientFillStyle :: Context2D -> CanvasGradient -> Effect Unit
-
-foreign import createRadialGradient :: Context2D -> Number -> Number -> Number -> Number -> Number -> Number -> Effect CanvasGradient
-
-foreign import createPatternImpl :: Context2D -> CanvasImageSource -> String -> Effect CanvasPattern
-
-foreign import setPatternFillStyle :: Context2D -> CanvasPattern -> Effect Unit
+createCanvas :: Number -> Number -> Aff CanvasElement
+createCanvas = liftEffect1 <<< createCanvasImpl
 
 loadImage :: String -> Aff CanvasImageSource
 loadImage = fromEffectFnAff <<< loadImageImpl
 
-getImageDataIndex :: ImageData -> Int -> Effect (Maybe Number)
-getImageDataIndex imageData index = 
-  do
-    result <- try $ getImageDataIndexImpl imageData index
-    case result of
-      Left _ -> pure $ Nothing
-      Right value -> pure $ Just value
+getContext2D :: CanvasElement -> Aff Context2D
+getContext2D = liftEffect <<< Graphics.Canvas.getContext2D
 
-setTextAlign :: Context2D -> TextAlign -> Effect Unit
-setTextAlign ctx AlignLeft = setTextAlignImpl ctx "left" 
-setTextAlign ctx AlignRight = setTextAlignImpl ctx "right"
-setTextAlign ctx AlignCenter = setTextAlignImpl ctx "center"
-setTextAlign ctx AlignStart = setTextAlignImpl ctx "start"
-setTextAlign ctx AlignEnd = setTextAlignImpl ctx "end"
+getCanvasWidth :: CanvasElement -> Aff Number
+getCanvasWidth = liftEffect <<< Graphics.Canvas.getCanvasWidth
 
-createPattern :: Context2D -> CanvasImageSource -> PatternRepeat -> Effect CanvasPattern
-createPattern ctx image Repeat = createPatternImpl ctx image "repeat"
-createPattern ctx image RepeatX = createPatternImpl ctx image "repeat-x"
-createPattern ctx image RepeatY = createPatternImpl ctx image "repeat-y"
-createPattern ctx image NoRepeat = createPatternImpl ctx image "no-repeat"
+getCanvasHeight :: CanvasElement -> Aff Number
+getCanvasHeight = liftEffect <<< Graphics.Canvas.getCanvasHeight
+
+toDataURL :: CanvasElement -> Aff String
+toDataURL = liftEffect <<< Graphics.Canvas.canvasToDataURL
+
+drawImage :: Context2D -> CanvasImageSource -> Number -> Number -> Number -> Number -> Number -> Number -> Number -> Number -> Aff Unit
+drawImage = liftEffect9 <<< Graphics.Canvas.drawImageFull
+  where
+    liftEffect9 = compose $ compose $ compose $ liftEffect6
+
+getImageData :: Context2D -> Number -> Number -> Number -> Number -> Aff ImageData
+getImageData = liftEffect4 <<< Graphics.Canvas.getImageData
+
+setFillStyle :: Context2D -> String -> Aff Unit
+setFillStyle = liftEffect1 <<< Graphics.Canvas.setFillStyle
+
+fillRect :: Context2D -> Rectangle -> Aff Unit 
+fillRect = liftEffect1 <<< Graphics.Canvas.fillRect
+
+setStrokeStyle :: Context2D -> String -> Aff Unit
+setStrokeStyle = liftEffect1 <<< Graphics.Canvas.setStrokeStyle
+
+strokeRect :: Context2D -> Rectangle -> Aff Unit
+strokeRect = liftEffect1 <<< Graphics.Canvas.strokeRect 
+
+clearRect :: Context2D -> Rectangle  -> Aff Unit
+clearRect = liftEffect1 <<< Graphics.Canvas.clearRect 
+
+setFont :: Context2D -> String -> Aff Unit
+setFont = liftEffect1 <<< Graphics.Canvas.setFont
+
+fillText :: Context2D -> String -> Number -> Number -> Aff Unit
+fillText = liftEffect3 <<< Graphics.Canvas.fillText
+
+strokeText :: Context2D -> String -> Number -> Number -> Aff Unit
+strokeText = liftEffect3 <<< Graphics.Canvas.strokeText
+
+measureText :: Context2D -> String -> Aff TextMetrics
+measureText = liftEffect1 <<< Graphics.Canvas.measureText
+
+save :: Context2D -> Aff Unit
+save = liftEffect <<< Graphics.Canvas.save
+
+restore :: Context2D -> Aff Unit
+restore = liftEffect <<< Graphics.Canvas.restore
+
+setTextAlign :: Context2D -> TextAlign -> Aff Unit
+setTextAlign = liftEffect1 <<< Graphics.Canvas.setTextAlign
+
+fill :: Context2D -> Aff Unit
+fill = liftEffect <<< Graphics.Canvas.fill
+
+stroke :: Context2D -> Aff Unit
+stroke = liftEffect <<< Graphics.Canvas.stroke
+
+clip :: Context2D -> Aff Unit
+clip = liftEffect <<< Graphics.Canvas.clip
+ 
+rect :: Context2D -> Rectangle -> Aff Unit
+rect = liftEffect1 <<< Graphics.Canvas.rect
+
+arc :: Context2D -> Arc -> Aff Unit
+arc = liftEffect1 <<< Graphics.Canvas.arc
+
+beginPath :: Context2D -> Aff Unit
+beginPath = liftEffect <<< Graphics.Canvas.beginPath
+
+moveTo :: Context2D -> Number -> Number -> Aff Unit
+moveTo = liftEffect2 <<< Graphics.Canvas.moveTo
+
+lineTo :: Context2D -> Number -> Number -> Aff Unit
+lineTo = liftEffect2 <<< Graphics.Canvas.lineTo
+
+closePath :: Context2D -> Aff Unit
+closePath = liftEffect <<< Graphics.Canvas.closePath
+
+rotate :: Context2D -> Number -> Aff Unit
+rotate = liftEffect1 <<< Graphics.Canvas.rotate
+
+scale :: Context2D -> ScaleTransform -> Aff Unit
+scale = liftEffect1 <<< Graphics.Canvas.scale
+
+translate :: Context2D -> TranslateTransform -> Aff Unit
+translate = liftEffect1 <<< Graphics.Canvas.translate
+
+transform :: Context2D -> Transform -> Aff Unit
+transform = liftEffect1 <<< Graphics.Canvas.transform
+
+setTransform :: Context2D -> Transform -> Aff Unit
+setTransform = liftEffect1 <<< Graphics.Canvas.setTransform
+
+createLinearGradient :: Context2D -> LinearGradient -> Aff CanvasGradient
+createLinearGradient = liftEffect1 <<< Graphics.Canvas.createLinearGradient
+
+addColorStop :: CanvasGradient -> Number -> String -> Aff Unit
+addColorStop = liftEffect2 <<< Graphics.Canvas.addColorStop
+
+setGradientFillStyle :: Context2D -> CanvasGradient -> Aff Unit
+setGradientFillStyle = liftEffect1 <<< Graphics.Canvas.setGradientFillStyle
+
+createRadialGradient :: Context2D -> RadialGradient -> Aff CanvasGradient
+createRadialGradient = liftEffect1 <<< Graphics.Canvas.createRadialGradient
+
+createPattern :: Context2D -> CanvasImageSource -> PatternRepeat -> Aff CanvasPattern
+createPattern = liftEffect2 <<< Graphics.Canvas.createPattern
+
+setPatternFillStyle :: Context2D -> CanvasPattern -> Aff Unit
+setPatternFillStyle = liftEffect1 <<< Graphics.Canvas.setPatternFillStyle
