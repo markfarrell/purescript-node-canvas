@@ -41,6 +41,7 @@ module Node.Canvas
   , setPatternFillStyle
   , setLineDash
   , quadraticCurveTo
+  , bezierCurveTo
   ) where
 
 import Prelude
@@ -68,6 +69,7 @@ import Graphics.Canvas
   , LinearGradient
   , RadialGradient
   , QuadraticCurve
+  , BezierCurve
   )
 import Graphics.Canvas as Graphics.Canvas
 
@@ -220,3 +222,6 @@ setLineDash = liftEffect1 <<< Graphics.Canvas.setLineDash
 
 quadraticCurveTo :: Context2D -> QuadraticCurve -> Aff Unit
 quadraticCurveTo = liftEffect1 <<< Graphics.Canvas.quadraticCurveTo
+
+bezierCurveTo :: Context2D -> BezierCurve -> Aff Unit
+bezierCurveTo = liftEffect1 <<< Graphics.Canvas.bezierCurveTo
