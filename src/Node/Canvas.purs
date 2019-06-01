@@ -43,6 +43,8 @@ module Node.Canvas
   , quadraticCurveTo
   , bezierCurveTo
   , setGlobalCompositeOperation
+  , setShadowBlur
+  , setShadowColor
   ) where
 
 import Prelude
@@ -230,3 +232,9 @@ bezierCurveTo = liftEffect1 <<< Graphics.Canvas.bezierCurveTo
 
 setGlobalCompositeOperation :: Context2D -> Composite -> Aff Unit
 setGlobalCompositeOperation = liftEffect1 <<< Graphics.Canvas.setGlobalCompositeOperation
+
+setShadowBlur :: Context2D -> Number -> Aff Unit
+setShadowBlur = liftEffect1 <<< Graphics.Canvas.setShadowBlur
+
+setShadowColor :: Context2D -> String -> Aff Unit
+setShadowColor = liftEffect1 <<< Graphics.Canvas.setShadowColor
