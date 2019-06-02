@@ -36,3 +36,11 @@ exports.imageDataIndexImpl = function(imageData) {
     };
   };
 };
+
+exports.imageWidth = function(canvasImageSource) {
+  return canvasImageSource.width;
+};
+
+exports.imageHeight = function(canvasImageSource) {
+  return canvasImageSource.height;
+};

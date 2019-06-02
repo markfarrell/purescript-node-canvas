@@ -46,6 +46,8 @@ module Node.Canvas
   , setShadowBlur
   , setShadowColor
   , imageDataIndex
+  , imageWidth
+  , imageHeight
   ) where
 
 import Prelude
@@ -88,6 +90,10 @@ foreign import createCanvasImpl :: Number -> Number -> Effect CanvasElement
 foreign import loadImageImpl :: String -> EffectFnAff CanvasImageSource
 
 foreign import imageDataIndexImpl :: ImageData -> Int -> Effect Number
+
+foreign import imageWidth :: CanvasImageSource -> Number
+
+foreign import imageHeight :: CanvasImageSource -> Number
 
 liftEffect1 :: forall m a b. MonadEffect m => (a -> Effect b) -> a -> m b
 liftEffect1 = compose liftEffect
