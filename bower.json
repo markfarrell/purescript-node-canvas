@@ -12,7 +12,10 @@
     "purescript-effect": "^2.0.1",
     "purescript-aff": "^5.1.1",
     "purescript-math": "^2.1.1",
-    "purescript-canvas": "^4.0.0"
+    "purescript-canvas": "^4.0.0",
+    "purescript-maybe": "^4.0.1",
+    "purescript-transformers": "^4.2.0",
+    "purescript-either": "^4.1.1"
   },
   "devDependencies": {
     "purescript-psci-support": "^4.0.0"

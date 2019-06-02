@@ -28,3 +28,11 @@ exports.loadImageImpl = function(src) {
     };
   };
 };
+
+exports.imageDataIndexImpl = function(imageData) {
+  return function(index) {
+    return function() {
+      return imageData.data[index];
+    };
+  };
+};

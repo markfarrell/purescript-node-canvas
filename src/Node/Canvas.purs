@@ -45,9 +45,15 @@ module Node.Canvas
   , setGlobalCompositeOperation
   , setShadowBlur
   , setShadowColor
+  , imageDataIndex
   ) where
 
 import Prelude
+
+import Control.Monad.Error.Class (try)
+
+import Data.Maybe (Maybe(..))
+import Data.Either (Either(..))
 
 import Effect (Effect)
 import Effect.Aff (Aff)
@@ -80,6 +86,8 @@ import Graphics.Canvas as Graphics.Canvas
 foreign import createCanvasImpl :: Number -> Number -> Effect CanvasElement
 
 foreign import loadImageImpl :: String -> EffectFnAff CanvasImageSource
+
+foreign import imageDataIndexImpl :: ImageData -> Int -> Effect Number
 
 liftEffect1 :: forall m a b. MonadEffect m => (a -> Effect b) -> a -> m b
 liftEffect1 = compose liftEffect
@@ -238,3 +246,11 @@ setShadowBlur = liftEffect1 <<< Graphics.Canvas.setShadowBlur
 
 setShadowColor :: Context2D -> String -> Aff Unit
 setShadowColor = liftEffect1 <<< Graphics.Canvas.setShadowColor
+
+imageDataIndex :: ImageData -> Int -> Aff (Maybe Number)
+imageDataIndex imageData index = liftEffect $
+  do
+    result <- try $ imageDataIndexImpl imageData index
+    case result of
+      Left _ -> pure $ Nothing
+      Right value -> pure $ Just value
